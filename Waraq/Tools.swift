@@ -143,7 +143,7 @@ struct SplitView: View {
                     opt(0, "doc.on.doc", "كلّ صفحة بملفّ", "يطلّع \(pdf.pageCount) ملفّ")
                     opt(1, "rectangle.split.3x1", "كلّ عدد صفحات بملفّ", "قسّمه لأجزاء متساوية")
                     if mode == 1 { Stepper(value: $every, in: 2...max(2, pdf.pageCount)) { Text("كلّ \(every) صفحات").font(rnd(15, .heavy)).foregroundStyle(Color.white) }.padding(14).card(WQ.s1, 16) }
-                    opt(2, "text.cursor", "صفحات أختارها", "مثل: 1-3, 5, 8-")
+                    opt(2, "text.cursor", "صفحات أختارها", "اكتب أرقامها بفواصل، والشرطة للنطاق")
                     if mode == 2 {
                         TextField("", text: $ranges, prompt: Text("1-3, 5, 8-").foregroundColor(WQ.tx3)).font(rnd(18, .heavy)).foregroundStyle(Color.white).keyboardType(.numbersAndPunctuation)
                             .padding(.horizontal, 16).frame(height: 54).background(WQ.s2, in: RoundedRectangle(cornerRadius: 15, style: .continuous)).environment(\.layoutDirection, .leftToRight)
@@ -340,6 +340,7 @@ struct TextSheet: View {
                         }.frame(maxWidth: .infinity).padding(.vertical, 30)
                     } else {
                         Text(text).font(rnd(14.5)).foregroundStyle(WQ.tx2).lineSpacing(5).textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading).padding(14).card(WQ.s1, 16)
+                        if !ocrDone { Text("النصّ طالع مخربط؟ اضغط زرّ القراءة من الصورة جوّه.").font(rnd(12)).foregroundStyle(WQ.tx3) }
                     }
                 }.padding(.horizontal, 20)
             }
@@ -347,6 +348,7 @@ struct TextSheet: View {
                 if text.isEmpty && !ocrDone { BigButton(title: "اقرا النصّ من الصور", icon: "text.viewfinder", tint: WQ.violet) { ocr() }.disabled(busy).opacity(busy ? 0.4 : 1) }
                 else if !text.isEmpty {
                     BigButton(title: copied ? "انّسخ ✓" : "انسخ", icon: "doc.on.doc", tint: WQ.violet) { UIPasteboard.general.string = text; copied = true; Haptic.ok() }
+                    if !ocrDone { Button { ocr() } label: { Image(systemName: "text.viewfinder").font(.system(size: 18, weight: .bold)).foregroundStyle(Color.white).frame(width: 54, height: 54).background(WQ.s2, in: Circle()) }.buttonStyle(Press()).disabled(busy) }
                     ShareLink(item: text) { Image(systemName: "square.and.arrow.up").font(.system(size: 18, weight: .bold)).foregroundStyle(Color.white).frame(width: 54, height: 54).background(WQ.s2, in: Circle()) }
                 }
             }.padding(.horizontal, 20).padding(.vertical, 12)
