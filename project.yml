@@ -64,3 +64,14 @@ targets:
         PRODUCT_NAME: Waraq
         INFOPLIST_KEY_CFBundleDisplayName: "ورق"
         INFOPLIST_KEY_NSCameraUsageDescription: "تمسح الأوراق بالكاميرا وتحوّلها لملفّ PDF. كلّشي يبقى على جهازك."
+  Dera:
+    type: application
+    platform: iOS
+    sources: [Dera, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.dera
+        PRODUCT_NAME: Dera
+        INFOPLIST_KEY_CFBundleDisplayName: "درع"
+        INFOPLIST_KEY_NSFaceIDUsageDescription: "نتأكّد إذا بصمة الوجه مفعّلة على جهازك ضمن فحص الأمان."

@@ -46,6 +46,13 @@ def waraq():
         d.rounded_rectangle([690 - w - 20, 330 + i * 86, 690 - 20, 366 + i * 86], 18, fill=(230, 70, 70, 255) if i == 0 else (210, 214, 224, 255))
     d.line([(300, 760), (360, 700), (420, 770), (500, 690)], fill=(60, 80, 200, 255), width=22, joint='curve')
     return im
+def dera():
+    im = glow(grad((8, 30, 46), (3, 10, 20)), (760, 230), 320, (50, 230, 175), 110)
+    d = ImageDraw.Draw(im); A = (50, 230, 175, 255)
+    pts = [(512, 140), (810, 245), (810, 530), (770, 665), (665, 790), (512, 880), (359, 790), (254, 665), (214, 530), (214, 245)]
+    d.polygon(pts, fill=A)
+    d.line([(370, 520), (475, 630), (670, 400)], fill=(4, 28, 34, 255), width=70, joint='curve')
+    return im
 if __name__ == '__main__':
     for name in sys.argv[1:]:
         save(globals()[name.lower()](), name)
