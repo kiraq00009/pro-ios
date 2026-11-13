@@ -87,6 +87,7 @@ struct RootView: View {
             case "search": tab = 4
             case "settings": settings = true
             case "add": adding = true
+            case "play": if let c = lib.channels.first { lib.play(channel: c, in: lib.channels) }
             default: break
             }
         }

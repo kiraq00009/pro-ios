@@ -139,7 +139,7 @@ struct PlayerScreen: View {
             UIApplication.shared.isIdleTimerDisabled = true
             let it = item
             eng.onSave = { t, d in lib.savePos(Resume(t: t, d: d, at: Date().timeIntervalSince1970, name: it.title + (it.sub.isEmpty ? "" : " — " + it.sub), poster: it.poster, kind: "v", id: it.key, url: it.url), key: it.key) }
-            if !Shot.on { eng.start(ua: lib.current?.ua ?? "VLC/3.0.20 LibVLC/3.0.20") }
+            if !Shot.on || Shot.name == "play" { eng.start(ua: lib.current?.ua ?? "VLC/3.0.20 LibVLC/3.0.20") }
         }
         .onDisappear { UIApplication.shared.isIdleTimerDisabled = false; eng.stop() }
         .sheet(isPresented: $list) {
