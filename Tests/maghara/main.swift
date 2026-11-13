@@ -38,6 +38,7 @@ func bot(_ seed: UInt64, smart: Bool) -> Cave {
     var cur = -1, curFloor = 0
     while !c.over && n < 6000 {
         n += 1
+        if n > 5985 && dumped < 2 { print("TR n \(n) turn \(c.turn) hero \(c.hero.pos) hp \(c.hero.hp) cur \(cur) step \(String(describing: cur >= 0 ? c.step(toward: cur) : nil)) mons \(c.mons.filter { c.lit[$0.pos] }.map { "\($0.pos):\($0.hp)" })") }
         check(c.hero.hp > 0 && c.hero.hp <= c.hero.maxHp, "hp out of range")
         check(c.monAt(c.hero.pos) == nil, "monster on hero")
         if vFloor != c.floor { vFloor = c.floor; visited = [] }
