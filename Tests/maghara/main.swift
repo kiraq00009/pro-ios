@@ -29,6 +29,7 @@ let copy = try! JSONDecoder().decode(Cave.self, from: JSONEncoder().encode(c0))
 check(copy.tiles == c0.tiles && copy.hero == c0.hero && copy.mons == c0.mons, "codable")
 
 // ── بوت يلعب: القواعد ما تنكسر واللعبة تخلص
+var dumped = 0
 func bot(_ seed: UInt64, smart: Bool) -> Cave {
     var c = Cave(seed: seed)
     var n = 0
@@ -88,6 +89,20 @@ func bot(_ seed: UInt64, smart: Bool) -> Cave {
         if goal >= 0, let dir = c.step(toward: goal) { if !c.act(dir) { c.rest() } } else { c.rest() }
     }
     check(c.over, "run did not finish (seed \(seed), floor \(c.floor), turn \(c.turn))")
+    if !c.over && dumped < 3 {
+        dumped += 1
+        print("DUMP seed \(seed) smart \(smart) hero \(c.hero.pos) hp \(c.hero.hp)/\(c.hero.maxHp) cur \(cur) busy \(c.busy) perks \(c.perks) owed \(c.owed) shop \(c.atShop) shrine \(c.atShrine) items \(c.items.keys.sorted()) log \(c.log.suffix(3))")
+        for m in c.mons { print("  mon \(Bestiary.all[m.kind].name) pos \(m.pos) hp \(m.hp) awake \(m.awake) lit \(c.lit[m.pos])") }
+        for y in 0..<Cave.H {
+            var line = ""
+            for x in 0..<Cave.W {
+                let p = y * Cave.W + x
+                if p == c.hero.pos { line += "@" } else if c.monAt(p) != nil { line += "M" } else if c.items[p] != nil { line += "i" }
+                else { switch c.tiles[p] { case .wall: line += c.seen[p] ? "#" : "%"; case .floor: line += c.seen[p] ? "." : "?"; case .exit: line += "E"; case .trap: line += "^"; case .shop: line += "$"; case .shrine: line += "+" } }
+            }
+            print("  " + line)
+        }
+    }
     return c
 }
 
