@@ -28,6 +28,15 @@ def dawri():
     d.rounded_rectangle([372, 730, 652, 800], 26, fill=G)
     d.rounded_rectangle([322, 800, 702, 860], 20, fill=(60, 235, 140, 255))
     return im
+def player():
+    im = glow(grad((70, 80, 220), (150, 60, 220)), (300, 240), 330, (200, 210, 255), 100)
+    d = ImageDraw.Draw(im)
+    d.rounded_rectangle([170, 250, 854, 700], 70, fill=W)
+    d.rounded_rectangle([210, 290, 814, 660], 44, fill=(40, 34, 90, 255))
+    d.polygon([(450, 380), (450, 570), (620, 475)], fill=W)
+    d.rounded_rectangle([372, 760, 652, 806], 23, fill=W)
+    d.rectangle([482, 700, 542, 770], fill=W)
+    return im
 if __name__ == '__main__':
     for name in sys.argv[1:]:
         save(globals()[name.lower()](), name)

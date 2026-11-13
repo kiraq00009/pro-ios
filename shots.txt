@@ -12,3 +12,14 @@ Dawri app.pro.dawri create3
 Dawri app.pro.dawri player
 Dawri app.pro.dawri hall
 Dawri app.pro.dawri players
+Player app.pro.player home
+Player app.pro.player live
+Player app.pro.player channel
+Player app.pro.player movies
+Player app.pro.player movie
+Player app.pro.player series
+Player app.pro.player show
+Player app.pro.player search
+Player app.pro.player settings
+Player app.pro.player add
+Player app.pro.player welcome

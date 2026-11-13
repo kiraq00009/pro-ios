@@ -29,3 +29,27 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: app.pro.dawri
         PRODUCT_NAME: Dawri
         INFOPLIST_KEY_CFBundleDisplayName: "دوري"
+  Player:
+    type: application
+    platform: iOS
+    sources: [Player, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.player
+        PRODUCT_NAME: Player
+        GENERATE_INFOPLIST_FILE: NO
+    info:
+      path: Player/Info.plist
+      properties:
+        CFBundleDisplayName: "بلاير"
+        CFBundleShortVersionString: "1.0"
+        CFBundleVersion: "1"
+        UILaunchScreen: {}
+        UIUserInterfaceStyle: Dark
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+        UIBackgroundModes: [audio]
+        ITSAppUsesNonExemptEncryption: false
+        LSApplicationQueriesSchemes: [vlc-x-callback]
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: true
