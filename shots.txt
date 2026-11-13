@@ -1,0 +1,14 @@
+Dawri app.pro.dawri home
+Dawri app.pro.dawri matches
+Dawri app.pro.dawri table
+Dawri app.pro.dawri groups
+Dawri app.pro.dawri bracket
+Dawri app.pro.dawri stats
+Dawri app.pro.dawri score
+Dawri app.pro.dawri champion
+Dawri app.pro.dawri create
+Dawri app.pro.dawri create2
+Dawri app.pro.dawri create3
+Dawri app.pro.dawri player
+Dawri app.pro.dawri hall
+Dawri app.pro.dawri players

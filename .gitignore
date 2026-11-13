@@ -1,0 +1,9 @@
+build/
+build-sim/
+Payload/
+*.ipa
+*.xcodeproj/
+DerivedData/
+.DS_Store
+*.log
+shots/
