@@ -85,3 +85,13 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: app.pro.qafza
         PRODUCT_NAME: Qafza
         INFOPLIST_KEY_CFBundleDisplayName: "قفزة"
+  Shuaa:
+    type: application
+    platform: iOS
+    sources: [Shuaa, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.shuaa
+        PRODUCT_NAME: Shuaa
+        INFOPLIST_KEY_CFBundleDisplayName: "شعاع"

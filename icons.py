@@ -66,6 +66,19 @@ def qafza():
     d.line([(362, 362), (662, 362), (662, 662)], fill=(255, 255, 255, 235), width=44, joint='curve')
     d.ellipse([318, 318, 406, 406], fill=W)
     return im
+def shuaa():
+    im = glow(grad((8, 14, 36), (3, 5, 14)), (300, 700), 300, (255, 90, 190), 90)
+    im = glow(im, (760, 260), 280, (60, 240, 255), 90)
+    d = ImageDraw.Draw(im); B = (64, 242, 255, 255)
+    pts = [(150, 700), (512, 700), (512, 330), (874, 330)]
+    d.line(pts, fill=(64, 242, 255, 90), width=110, joint='curve')
+    d.line(pts, fill=B, width=52, joint='curve')
+    d.line(pts, fill=W, width=18, joint='curve')
+    d.line([(400, 812), (624, 588)], fill=W, width=46)
+    d.line([(400, 442), (624, 218)], fill=W, width=46)
+    d.ellipse([110, 660, 190, 740], fill=B)
+    d.ellipse([804, 260, 944, 400], outline=(255, 90, 190, 255), width=30); d.ellipse([846, 302, 902, 358], fill=(255, 90, 190, 255))
+    return im
 if __name__ == '__main__':
     for name in sys.argv[1:]:
         save(globals()[name.lower()](), name)

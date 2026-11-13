@@ -3,3 +3,4 @@ Player
 Waraq
 Dera
 Qafza
+Shuaa

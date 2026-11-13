@@ -1,7 +1,6 @@
-Qafza app.pro.qafza home
-Qafza app.pro.qafza game
-Qafza app.pro.qafza hint
-Qafza app.pro.qafza stuck
-Qafza app.pro.qafza win
-Qafza app.pro.qafza how
-Dera app.pro.dera linkbad
+Shuaa app.pro.shuaa home
+Shuaa app.pro.shuaa game
+Shuaa app.pro.shuaa hint
+Shuaa app.pro.shuaa big
+Shuaa app.pro.shuaa win
+Shuaa app.pro.shuaa how
