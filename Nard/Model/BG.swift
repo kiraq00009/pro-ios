@@ -195,7 +195,7 @@ enum BG {
             for a in 1...6 { for d in a...6 {
                 let w = a == d ? 1.0 : 2.0
                 var worst = Double.infinity
-                let replies = turns(cand.1, 1 - player, dice: dice(a, d))
+                let replies = turns(cand.1, 1 - player, dice: BG.dice(a, d))
                 if replies.isEmpty { worst = evaluate(cand.1, player) }
                 else {
                     var seenR = Set<Board>()
