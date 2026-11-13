@@ -256,9 +256,9 @@ struct FriendlyView: View {
                 }), limit: 2)
                 if let a, let b {
                     HStack(spacing: 14) {
-                        ScoreSide(name: store.name(a), color: store.tint(a), value: $hg)
-                        Text(":").font(rnd(40, .black)).foregroundStyle(DR.tx3)
                         ScoreSide(name: store.name(b), color: store.tint(b), value: $ag)
+                        Text(":").font(rnd(40, .black)).foregroundStyle(DR.tx3)
+                        ScoreSide(name: store.name(a), color: store.tint(a), value: $hg)
                     }.environment(\.layoutDirection, .leftToRight).padding(.vertical, 6)
                     BigButton(title: "احفظ النتيجة", icon: "checkmark") {
                         var t = Engine.make(name: "ودّيّة", format: .league, legs: 1, members: [a, b], shuffle: false)
@@ -281,7 +281,7 @@ struct MemberPicker: View {
     @FocusState private var focus: Bool
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 104), spacing: 8)], spacing: 8) {
+            LazyVGrid(columns: [GridItem(.flexible(), spacing: 8), GridItem(.flexible(), spacing: 8)], spacing: 8) {
                 ForEach(store.members) { m in
                     let on = selected.contains(m.id)
                     Button {

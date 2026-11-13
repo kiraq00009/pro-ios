@@ -183,12 +183,12 @@ struct GameRow: View {
     var body: some View {
         let w = g.winner
         HStack(spacing: 8) {
-            side(g.home, label(g.home, g.seedHome), win: w != nil && w == g.home, lead: true)
+            side(g.away, label(g.away, g.seedAway), win: w != nil && w == g.away, lead: true)
             Group {
                 if g.played {
                     VStack(spacing: 1) {
-                        Text("\(g.hg ?? 0) - \(g.ag ?? 0)").font(rnd(19, .black)).foregroundStyle(Color.white).environment(\.layoutDirection, .leftToRight)
-                        if let p = g.hp, let q = g.ap { Text("ترجيح \(p)-\(q)").font(rnd(10, .bold)).foregroundStyle(DR.gold) }
+                        Text("\(g.ag ?? 0) - \(g.hg ?? 0)").font(rnd(19, .black)).foregroundStyle(Color.white).environment(\.layoutDirection, .leftToRight)
+                        if let p = g.hp, let q = g.ap { Text("ترجيح \(q)-\(p)").font(rnd(10, .bold)).foregroundStyle(DR.gold) }
                         else if g.needsPens { Text("يحتاج ترجيح").font(rnd(10, .bold)).foregroundStyle(DR.red) }
                     }
                 } else {
@@ -196,7 +196,7 @@ struct GameRow: View {
                         .padding(.horizontal, 12).frame(height: 30).background(g.ready ? DR.green : DR.s3, in: Capsule())
                 }
             }.frame(width: 84)
-            side(g.away, label(g.away, g.seedAway), win: w != nil && w == g.away, lead: false)
+            side(g.home, label(g.home, g.seedHome), win: w != nil && w == g.home, lead: false)
         }
         .padding(.horizontal, 12).padding(.vertical, 11).contentShape(Rectangle())
         .environment(\.layoutDirection, .leftToRight)
@@ -265,7 +265,7 @@ struct BracketView: View {
     @EnvironmentObject var store: Store
     let t: Tournament
     let open: (Game) -> Void
-    private let bw: CGFloat = 168, bh: CGFloat = 76, gap: CGFloat = 34
+    private let bw: CGFloat = 158, bh: CGFloat = 76, gap: CGFloat = 30
 
     var body: some View {
         let rounds = Engine.koRounds(t)
@@ -305,8 +305,8 @@ struct BracketView: View {
                 }
                 .frame(width: CGFloat(rounds.count) * (bw + gap) - gap, height: height)
                 .padding(.top, 30).padding(.bottom, 10).padding(.horizontal, 2)
-                .environment(\.layoutDirection, .leftToRight)
             }
+            .environment(\.layoutDirection, .leftToRight)
         }
     }
     private func seedLabel(_ s: String?) -> String? {
@@ -403,16 +403,18 @@ struct ScoreSheet: View {
             Capsule().fill(DR.s3).frame(width: 40, height: 5).padding(.top, 10)
             Text(game.played ? "عدّل النتيجة" : "سجّل النتيجة").font(rnd(22, .black)).foregroundStyle(Color.white)
             HStack(alignment: .top, spacing: 10) {
-                ScoreSide(name: store.name(game.home), color: store.tint(game.home), value: $hg)
-                Text(":").font(rnd(40, .black)).foregroundStyle(DR.tx3).padding(.top, 86)
                 ScoreSide(name: store.name(game.away), color: store.tint(game.away), value: $ag)
+                Text(":").font(rnd(40, .black)).foregroundStyle(DR.tx3).padding(.top, 86)
+                ScoreSide(name: store.name(game.home), color: store.tint(game.home), value: $hg)
             }.environment(\.layoutDirection, .leftToRight).padding(.horizontal, 16)
 
             if tie {
                 VStack(spacing: 10) {
                     Text("تعادل — منو فاز بركلات الترجيح؟").font(rnd(14, .heavy)).foregroundStyle(DR.gold)
                     HStack(spacing: 12) {
-                        pens($hp); Text("ترجيح").font(rnd(12, .bold)).foregroundStyle(DR.tx3); pens($ap)
+                        pens($ap)
+                        Text("ترجيح").font(rnd(12, .bold)).foregroundStyle(DR.tx3)
+                        pens($hp)
                     }.environment(\.layoutDirection, .leftToRight)
                     if hp == ap { Text("لازم واحد يفوز بالترجيح").font(rnd(12)).foregroundStyle(DR.red) }
                 }.padding(14).frame(maxWidth: .infinity).card(DR.s1, 18, stroke: DR.gold.opacity(0.35)).padding(.horizontal, 16)
