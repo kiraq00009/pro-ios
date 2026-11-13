@@ -1,8 +1,7 @@
-Dera app.pro.dera checkup
-Dera app.pro.dera pass
-Dera app.pro.dera leak
-Dera app.pro.dera gen
-Dera app.pro.dera codes
-Dera app.pro.dera addcode
-Dera app.pro.dera link
+Qafza app.pro.qafza home
+Qafza app.pro.qafza game
+Qafza app.pro.qafza hint
+Qafza app.pro.qafza stuck
+Qafza app.pro.qafza win
+Qafza app.pro.qafza how
 Dera app.pro.dera linkbad

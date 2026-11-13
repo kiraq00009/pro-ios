@@ -75,3 +75,13 @@ targets:
         PRODUCT_NAME: Dera
         INFOPLIST_KEY_CFBundleDisplayName: "درع"
         INFOPLIST_KEY_NSFaceIDUsageDescription: "نتأكّد إذا بصمة الوجه مفعّلة على جهازك ضمن فحص الأمان."
+  Qafza:
+    type: application
+    platform: iOS
+    sources: [Qafza, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.qafza
+        PRODUCT_NAME: Qafza
+        INFOPLIST_KEY_CFBundleDisplayName: "قفزة"

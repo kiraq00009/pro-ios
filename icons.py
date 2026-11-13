@@ -53,6 +53,19 @@ def dera():
     d.polygon(pts, fill=A)
     d.line([(370, 520), (475, 630), (670, 400)], fill=(4, 28, 34, 255), width=70, joint='curve')
     return im
+def qafza():
+    im = glow(grad((70, 50, 170), (30, 16, 70)), (512, 240), 340, (190, 150, 255), 110)
+    d = ImageDraw.Draw(im)
+    cols = [(52, 209, 191), (82, 153, 255), (158, 115, 255), (255, 107, 158)]
+    k = 0
+    for r in range(2):
+        for c in range(2):
+            x = 222 + c * 300; y = 222 + r * 300
+            d.rounded_rectangle([x, y, x + 280, y + 280], 66, fill=cols[k] + (255,)); k += 1
+    d.rounded_rectangle([522, 522, 802, 802], 66, fill=(255, 209, 77, 255))
+    d.line([(362, 362), (662, 362), (662, 662)], fill=(255, 255, 255, 235), width=44, joint='curve')
+    d.ellipse([318, 318, 406, 406], fill=W)
+    return im
 if __name__ == '__main__':
     for name in sys.argv[1:]:
         save(globals()[name.lower()](), name)

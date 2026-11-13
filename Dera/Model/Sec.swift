@@ -220,7 +220,7 @@ enum Sec {
                 if reg == b { continue }                                               // الموقع الأصليّ نفسه
                 let inSub = labels.dropLast(2).contains { $0.contains(b) }
                 if deleet == b || (clean != b && clean.count >= 5 && edit(clean, b) == 1) { flags.append(Flag(level: 2, text: "يقلّد اسم «\(b)» بحرف مختلف — الأصليّ \(b).com")); break }
-                if clean.contains(b) && clean != b { flags.append(Flag(level: 2, text: "بيه اسم «\(b)» بس هو مو موقعهم الرسميّ")); break }
+                if (clean.contains(b) || deleet.contains(b)) && clean != b { flags.append(Flag(level: 2, text: "بيه اسم «\(b)» بس هو مو موقعهم الرسميّ")); break }
                 if inSub { flags.append(Flag(level: 2, text: "اسم «\(b)» محطوط بأوّل العنوان، بس الموقع الحقيقيّ هو \(reg).\(tld)")); break }
             }
         }

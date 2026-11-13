@@ -2,3 +2,4 @@ Dawri
 Player
 Waraq
 Dera
+Qafza

@@ -60,7 +60,7 @@ for ok in ["https://www.google.com/search?q=x", "apple.com", "https://github.com
     check(verdict(ok) == 0, "should be clean: \(ok) → \(Sec.analyze(ok)?.flags.map { $0.text } ?? [])")
 }
 for bad in ["http://paypa1.com/login", "https://google.com.secure-login.xyz/verify", "https://faceb00k.com", "http://192.168.4.20/bank", "https://apple.com@evil.top/id",
-            "https://xn--pple-43d.com", "https://paypal-support-center.com/update", "https://gooogle.com"] {
+            "https://xn--pple-43d.com", "https://paypal-support-center.com/update", "https://gooogle.com", "http://paypa1-secure.xyz/login/verify"] {
     check(verdict(bad) == 2, "should be dangerous: \(bad) → \(verdict(bad)) \(Sec.analyze(bad)?.flags.map { $0.text } ?? [])")
 }
 check(verdict("https://bit.ly/3xYz") == 1, "shortener is a warning")
