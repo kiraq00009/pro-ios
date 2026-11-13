@@ -79,6 +79,23 @@ def shuaa():
     d.ellipse([110, 660, 190, 740], fill=B)
     d.ellipse([804, 260, 944, 400], outline=(255, 90, 190, 255), width=30); d.ellipse([846, 302, 902, 358], fill=(255, 90, 190, 255))
     return im
+def nard():
+    im = glow(grad((12, 84, 66), (3, 28, 24)), (512, 430), 430, (250, 205, 100), 70)
+    d = ImageDraw.Draw(im)
+    A = (238, 199, 122, 255); R = (160, 55, 42, 255)
+    d.polygon([(70, 1024), (270, 1024), (170, 560)], fill=A)
+    d.polygon([(754, 1024), (954, 1024), (854, 560)], fill=R)
+    d.polygon([(70, 0), (270, 0), (170, 464)], fill=R)
+    d.polygon([(754, 0), (954, 0), (854, 464)], fill=A)
+    d.rounded_rectangle([318, 250, 706, 638], radius=92, fill=(40, 30, 20, 120))
+    d.rounded_rectangle([312, 232, 712, 632], radius=92, fill=(252, 248, 238, 255))
+    for (x, y) in [(412, 332), (612, 332), (512, 432), (412, 532), (612, 532)]:
+        d.ellipse([x - 38, y - 38, x + 38, y + 38], fill=(22, 24, 30, 255))
+    d.ellipse([252, 690, 492, 930], fill=(250, 243, 224, 255), outline=(196, 176, 134, 255), width=16)
+    d.ellipse([312, 750, 432, 870], outline=(214, 198, 160, 255), width=10)
+    d.ellipse([532, 690, 772, 930], fill=(30, 31, 38, 255), outline=(120, 122, 134, 255), width=16)
+    d.ellipse([592, 750, 712, 870], outline=(74, 76, 88, 255), width=10)
+    return im
 if __name__ == '__main__':
     for name in sys.argv[1:]:
         save(globals()[name.lower()](), name)

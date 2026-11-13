@@ -1,6 +1,8 @@
-Shuaa app.pro.shuaa home
-Shuaa app.pro.shuaa game
-Shuaa app.pro.shuaa hint
-Shuaa app.pro.shuaa big
-Shuaa app.pro.shuaa win
-Shuaa app.pro.shuaa how
+Nard app.pro.nard home
+Nard app.pro.nard start
+Nard app.pro.nard game
+Nard app.pro.nard hint
+Nard app.pro.nard bear
+Nard app.pro.nard win
+Nard app.pro.nard two
+Nard app.pro.nard how

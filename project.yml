@@ -95,3 +95,13 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: app.pro.shuaa
         PRODUCT_NAME: Shuaa
         INFOPLIST_KEY_CFBundleDisplayName: "شعاع"
+  Nard:
+    type: application
+    platform: iOS
+    sources: [Nard, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.nard
+        PRODUCT_NAME: Nard
+        INFOPLIST_KEY_CFBundleDisplayName: "نرد"
