@@ -187,21 +187,22 @@ enum BG {
             return (Int.random(in: 0..<100, using: &rng) < 45 ? top.randomElement(using: &rng)! : scored[0]).0
         }
         if level == 1 || scored.count == 1 { return scored[0].0 }
-        // صعب: لأحسن ٥ مرشّحين نحسب متوسّط أحسن ردّ للخصم على الـ٢١ رمية
+        // صعب: لأحسن المرشّحين نحسب كلّ ردود الخصم على الـ٢١ رمية — الخصم يختار الأسوأ إلنا
+        func leaf(_ c: Board) -> Double { evaluate(c, player) - evaluate(c, 1 - player) }
         var bestT = scored[0].0, bestV = -Double.infinity
-        for cand in scored.prefix(5) {
+        for cand in scored.prefix(8) {
             if cand.1.winner == player { return cand.0 }
             var sum = 0.0
             for a in 1...6 { for d in a...6 {
                 let w = a == d ? 1.0 : 2.0
                 var worst = Double.infinity
                 let replies = turns(cand.1, 1 - player, dice: BG.dice(a, d))
-                if replies.isEmpty { worst = evaluate(cand.1, player) }
+                if replies.isEmpty { worst = leaf(cand.1) }
                 else {
                     var seenR = Set<Board>()
-                    for r in replies.prefix(60) {
+                    for r in replies {
                         var c = cand.1; for m in r { c = c.applying(m, 1 - player) }
-                        if seenR.insert(c).inserted { worst = min(worst, evaluate(c, player)) }
+                        if seenR.insert(c).inserted { worst = min(worst, c.winner == nil ? leaf(c) : -5_000) }
                     }
                 }
                 sum += worst * w

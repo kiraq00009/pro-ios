@@ -98,9 +98,10 @@ for g in 0..<40 { if play(levels: [1, 0], seed: UInt64(g) &* 131 &+ 9).winner ==
 print("medium vs easy: \(w2m)/40")
 check(w2m >= 22, "medium should beat easy")
 var hw = 0
-for g in 0..<16 { if play(levels: [2, 1], seed: UInt64(g) &* 911 &+ 1).winner == 0 { hw += 1 } }
-print("hard vs medium: \(hw)/16, time \(String(format: "%.1f", Date().timeIntervalSince(t0)))s")
-check(hw >= 6, "hard should not be worse than medium")
+for g in 0..<30 { if play(levels: [2, 1], seed: UInt64(g) &* 911 &+ 1).winner == 0 { hw += 1 } }
+for g in 0..<30 { if play(levels: [1, 2], seed: UInt64(g) &* 577 &+ 4).winner == 1 { hw += 1 } }
+print("hard vs medium: \(hw)/60, time \(String(format: "%.1f", Date().timeIntervalSince(t0)))s")
+check(hw >= 31, "hard should beat medium")
 check(Date().timeIntervalSince(t0) < 240, "too slow")
 
 print(failures == 0 ? "ALL NARD TESTS PASSED" : "\(failures) FAILURES")
