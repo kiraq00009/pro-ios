@@ -34,9 +34,9 @@ enum Bestiary {
         Kind(name: "غول", glyph: "👹", hp: 14, hpF: 1.9, atk: 4, atkF: 0.5, def: 1, xp: 6, minFloor: 5, note: "ضربته ثقيلة — لا تخلّيه يحاصرك"),
         Kind(name: "ساحر", glyph: "🧙", hp: 7, hpF: 1.1, atk: 3, atkF: 0.45, def: 0, xp: 6, minFloor: 6, ranged: 3, note: "يضرب من بعيد على خطّ مستقيم — اختبئ ورا الجدار"),
         Kind(name: "شبح", glyph: "👻", hp: 10, hpF: 1.3, atk: 5, atkF: 0.55, def: 2, xp: 7, minFloor: 8, slow: true, note: "بطيء بس ضربته توجع ودرعه قويّ"),
-        Kind(name: "ملك الهلام", glyph: "🐸", hp: 40, hpF: 0, atk: 6, atkF: 0, def: 1, xp: 20, minFloor: 4, boss: true, note: "زعيم الطابق الرابع"),
-        Kind(name: "زعيم الغيلان", glyph: "👺", hp: 72, hpF: 0, atk: 9, atkF: 0, def: 2, xp: 35, minFloor: 8, boss: true, note: "زعيم الطابق الثامن"),
-        Kind(name: "التنّين", glyph: "🐉", hp: 120, hpF: 0, atk: 12, atkF: 0, def: 3, xp: 60, minFloor: 12, ranged: 3, boss: true, note: "آخر المغارة — ينفخ نار من بعيد")
+        Kind(name: "ملك الهلام", glyph: "🐸", hp: 44, hpF: 0, atk: 6, atkF: 0, def: 1, xp: 20, minFloor: 4, boss: true, note: "زعيم الطابق الرابع"),
+        Kind(name: "زعيم الغيلان", glyph: "👺", hp: 88, hpF: 0, atk: 11, atkF: 0, def: 2, xp: 35, minFloor: 8, boss: true, note: "زعيم الطابق الثامن"),
+        Kind(name: "التنّين", glyph: "🐉", hp: 165, hpF: 0, atk: 15, atkF: 0, def: 3, xp: 60, minFloor: 12, ranged: 3, boss: true, note: "آخر المغارة — ينفخ نار من بعيد")
     ]
 }
 
@@ -79,7 +79,7 @@ struct Fx: Codable, Hashable {
 
 struct Cave: Codable {
     static let W = 9, H = 13, lastFloor = 12
-    static let shopPrices = [22, 28, 55, 55, 40]      // دوا · قنبلة · سيف · درع · قلب
+    static let shopPrices = [26, 32, 70, 70, 48]      // دوا · قنبلة · سيف · درع · قلب
 
     var seed: UInt64
     var rng: RNG
@@ -238,7 +238,7 @@ struct Cave: Codable {
     private mutating func spawn(_ k: Int, at p: Int) {
         let s = Bestiary.all[k]
         let f = Double(floor - 1)
-        let hp = s.hp + Int(s.hpF * f), atk = s.atk + Int(s.atkF * f)
+        let hp = s.hp + Int(s.hpF * f * 1.3), atk = s.atk + Int(s.atkF * f * 1.35)
         mons.append(Mon(id: nextId, kind: k, pos: p, hp: hp, maxHp: hp, atk: atk, def: s.def))
         nextId += 1
     }
@@ -252,10 +252,6 @@ struct Cave: Codable {
         guard to >= 0, to < tiles.count, tiles[to] != .wall else { return false }
         fx = []
         if let mi = monAt(to) { strike(mi); endTurn(); return true }
-        if tiles[to] == .exit && floor % 4 == 0 && bossAlive {
-            say("الباب مقفول — لازم تخلّص على الزعيم أوّل")
-            return false
-        }
         hero.pos = to
         if let it = items[to] { items[to] = nil; pick(it, at: to) }
         switch tiles[to] {
@@ -266,7 +262,8 @@ struct Cave: Codable {
             if hero.hp <= 0 { die("فخّ"); return true }
         case .shop: atShop = true
         case .shrine: atShrine = true
-        case .exit: descend(); return true
+        case .exit:
+            if floor % 4 == 0 && bossAlive { say("الباب مقفول — لازم تخلّص على الزعيم أوّل") } else { descend(); return true }
         default: break
         }
         endTurn()

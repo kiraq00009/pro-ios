@@ -34,6 +34,7 @@ func bot(_ seed: UInt64, smart: Bool) -> Cave {
     var n = 0
     var lastShop = -1
     var visited = Set<Int>(), vFloor = 0
+    var cur = -1, curFloor = 0
     while !c.over && n < 6000 {
         n += 1
         check(c.hero.hp > 0 && c.hero.hp <= c.hero.maxHp, "hp out of range")
@@ -66,8 +67,13 @@ func bot(_ seed: UInt64, smart: Bool) -> Cave {
             for n2 in c.near(p) where c.seen[n2] && c.tiles[n2] != .wall && d[n2] == 999 { d[n2] = d[p] + 1; q.append(n2) }
         }
         var goal = -1, gd = 999
+        // يثبت على هدفه لحدّ ما يوصله (حتى ما يتذبذب بين هدفين)
+        if cur >= 0 && cur != c.hero.pos && c.floor == curFloor && c.step(toward: cur) != nil {
+            if let dir = c.step(toward: cur) { if !c.act(dir) { c.rest() } }
+            continue
+        }
         for (p, _) in c.items where c.seen[p] && d[p] < gd { gd = d[p]; goal = p }
-        if smart && goal < 0 && c.floor % 3 == 0 && lastShop != c.floor && c.hero.gold >= 60, let s = c.tiles.firstIndex(of: .shop), c.seen[s] { goal = s }
+        if smart && goal < 0 && c.floor % 3 == 0 && lastShop != c.floor && c.hero.gold >= 60, let s = c.tiles.firstIndex(of: .shop), c.seen[s], d[s] < 999 { goal = s }
         if goal < 0 {
             for p in 0..<c.tiles.count where c.seen[p] && c.tiles[p] != .wall && d[p] < gd && !visited.contains(p) {
                 if c.near(p).contains(where: { !c.seen[$0] }) { gd = d[p]; goal = p }
@@ -78,6 +84,7 @@ func bot(_ seed: UInt64, smart: Bool) -> Cave {
                 goal = c.near(b.pos).filter { c.tiles[$0] != .wall && c.seen[$0] }.min { d[$0] < d[$1] } ?? -1
             } else { goal = e }
         }
+        cur = goal; curFloor = c.floor
         if goal >= 0, let dir = c.step(toward: goal) { if !c.act(dir) { c.rest() } } else { c.rest() }
     }
     check(c.over, "run did not finish (seed \(seed), floor \(c.floor), turn \(c.turn))")
@@ -96,7 +103,8 @@ for (label, smart) in [("careless", false), ("smart", true)] {
     print("\(label) bot: avg floor \(String(format: "%.1f", Double(sum) / Double(N))), wins \(wins)/\(N), floors \(floors[1...12].map { String($0) }.joined(separator: " "))")
     if smart {
         check(Double(sum) / Double(N) >= 3.0, "game too hard: smart bot dies too early")
-        check(wins * 100 / N <= 70, "game too easy: smart bot wins too often")
+        check(wins * 100 / N <= 60, "game too easy: smart bot wins too often")
+        check(wins >= 6, "game impossible: smart bot never wins")
         check(floors[1] * 100 / N <= 12, "first floor kills too often")
     }
 }
