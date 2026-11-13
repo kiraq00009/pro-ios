@@ -37,6 +37,15 @@ def player():
     d.rounded_rectangle([372, 760, 652, 806], 23, fill=W)
     d.rectangle([482, 700, 542, 770], fill=W)
     return im
+def waraq():
+    im = glow(grad((255, 110, 80), (200, 40, 60)), (280, 230), 330, (255, 220, 190), 100)
+    d = ImageDraw.Draw(im)
+    d.rounded_rectangle([300, 190, 760, 800], 50, fill=(255, 255, 255, 110))
+    d.rounded_rectangle([250, 240, 710, 850], 50, fill=W)
+    for i, w in enumerate([330, 330, 250, 330, 180]):
+        d.rounded_rectangle([690 - w - 20, 330 + i * 86, 690 - 20, 366 + i * 86], 18, fill=(230, 70, 70, 255) if i == 0 else (210, 214, 224, 255))
+    d.line([(300, 760), (360, 700), (420, 770), (500, 690)], fill=(60, 80, 200, 255), width=22, joint='curve')
+    return im
 if __name__ == '__main__':
     for name in sys.argv[1:]:
         save(globals()[name.lower()](), name)

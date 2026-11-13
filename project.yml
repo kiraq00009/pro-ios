@@ -53,3 +53,14 @@ targets:
         LSApplicationQueriesSchemes: [vlc-x-callback]
         NSAppTransportSecurity:
           NSAllowsArbitraryLoads: true
+  Waraq:
+    type: application
+    platform: iOS
+    sources: [Waraq, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.waraq
+        PRODUCT_NAME: Waraq
+        INFOPLIST_KEY_CFBundleDisplayName: "ورق"
+        INFOPLIST_KEY_NSCameraUsageDescription: "تمسح الأوراق بالكاميرا وتحوّلها لملفّ PDF. كلّشي يبقى على جهازك."

@@ -24,3 +24,15 @@ Player app.pro.player settings
 Player app.pro.player add
 Player app.pro.player welcome
 Player app.pro.player play
+Waraq app.pro.waraq home
+Waraq app.pro.waraq doc
+Waraq app.pro.waraq tools
+Waraq app.pro.waraq pages
+Waraq app.pro.waraq sign
+Waraq app.pro.waraq place
+Waraq app.pro.waraq split
+Waraq app.pro.waraq compress
+Waraq app.pro.waraq protect
+Waraq app.pro.waraq watermark
+Waraq app.pro.waraq text
+Waraq app.pro.waraq merge
