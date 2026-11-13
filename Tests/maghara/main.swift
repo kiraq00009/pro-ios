@@ -57,7 +57,14 @@ func bot(_ seed: UInt64, smart: Bool) -> Cave {
         if smart && c.hero.bombs > 0 && (around.count >= 3 || around.contains { Bestiary.all[$0.kind].boss }) { c.bomb(); continue }
         if target >= 0 { c.act(target); continue }
         // لو وحش ظاهر وصاحي: انتظره (يجي إلنا) بدل ما نمشي إله
-        let d = c.bfs(from: c.hero.pos)
+        // مسافات عبر الخانات المعروفة بس (نفس اللي يگدر اللاعب يمشيه)
+        var d = [Int](repeating: 999, count: c.tiles.count)
+        d[c.hero.pos] = 0
+        var q = [c.hero.pos], qh = 0
+        while qh < q.count {
+            let p = q[qh]; qh += 1
+            for n2 in c.near(p) where c.seen[n2] && c.tiles[n2] != .wall && d[n2] == 999 { d[n2] = d[p] + 1; q.append(n2) }
+        }
         var goal = -1, gd = 999
         for (p, _) in c.items where c.seen[p] && d[p] < gd { gd = d[p]; goal = p }
         if smart && goal < 0 && c.floor % 3 == 0 && lastShop != c.floor && c.hero.gold >= 60, let s = c.tiles.firstIndex(of: .shop), c.seen[s] { goal = s }
@@ -66,7 +73,7 @@ func bot(_ seed: UInt64, smart: Bool) -> Cave {
                 if c.near(p).contains(where: { !c.seen[$0] }) { gd = d[p]; goal = p }
             }
         }
-        if goal < 0, let e = c.tiles.firstIndex(of: .exit) {
+        if goal < 0, let e = c.tiles.firstIndex(of: .exit), c.seen[e] {
             if c.floor % 4 == 0 && c.bossAlive, let b = c.mons.first(where: { Bestiary.all[$0.kind].boss }) {
                 goal = c.near(b.pos).filter { c.tiles[$0] != .wall && c.seen[$0] }.min { d[$0] < d[$1] } ?? -1
             } else { goal = e }
