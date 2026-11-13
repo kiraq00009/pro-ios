@@ -163,6 +163,9 @@ struct Cave: Codable {
         for m in mons where lit[m.pos] { met.insert(m.kind) }
     }
 
+    /// للتصوير والفحص: يقفز لطابق معيّن
+    mutating func jump(_ f: Int) { floor = max(1, min(Cave.lastFloor, f)); generate() }
+
     // MARK: توليد الطابق
 
     private mutating func generate() {

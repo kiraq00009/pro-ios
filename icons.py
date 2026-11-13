@@ -96,6 +96,20 @@ def nard():
     d.ellipse([532, 690, 772, 930], fill=(30, 31, 38, 255), outline=(120, 122, 134, 255), width=16)
     d.ellipse([592, 750, 712, 870], outline=(74, 76, 88, 255), width=10)
     return im
+def maghara():
+    im = glow(grad((26, 20, 48), (6, 5, 12)), (512, 560), 380, (255, 150, 50), 130)
+    d = ImageDraw.Draw(im)
+    S = (14, 12, 24, 255)
+    d.polygon([(0, 1024), (0, 300), (150, 120), (300, 0), (0, 0)], fill=S)
+    d.polygon([(1024, 1024), (1024, 300), (874, 120), (724, 0), (1024, 0)], fill=S)
+    d.polygon([(0, 1024), (0, 820), (220, 900), (512, 860), (804, 900), (1024, 820), (1024, 1024)], fill=S)
+    for (x, w, h) in [(330, 70, 190), (470, 90, 260), (640, 70, 170)]:
+        d.polygon([(x, 0), (x + w, 0), (x + w // 2, h)], fill=S)
+    d.ellipse([382, 470, 642, 730], fill=(255, 190, 80, 255))
+    d.ellipse([432, 520, 592, 680], fill=(255, 240, 190, 255))
+    d.polygon([(512, 300), (590, 520), (434, 520)], fill=(255, 170, 60, 255))
+    d.rounded_rectangle([482, 700, 542, 900], radius=20, fill=(120, 76, 40, 255))
+    return im
 if __name__ == '__main__':
     for name in sys.argv[1:]:
         save(globals()[name.lower()](), name)

@@ -33,10 +33,13 @@ func bot(_ seed: UInt64, smart: Bool) -> Cave {
     var c = Cave(seed: seed)
     var n = 0
     var lastShop = -1
+    var visited = Set<Int>(), vFloor = 0
     while !c.over && n < 6000 {
         n += 1
         check(c.hero.hp > 0 && c.hero.hp <= c.hero.maxHp, "hp out of range")
         check(c.monAt(c.hero.pos) == nil, "monster on hero")
+        if vFloor != c.floor { vFloor = c.floor; visited = [] }
+        visited.insert(c.hero.pos)
         if !c.perks.isEmpty {
             let pref = smart ? [0, 1, 2, 3, 4, 8, 5, 9, 6, 7] : c.perks
             c.choose(pref.first { c.perks.contains($0) } ?? c.perks[0]); continue
@@ -59,7 +62,7 @@ func bot(_ seed: UInt64, smart: Bool) -> Cave {
         for (p, _) in c.items where c.seen[p] && d[p] < gd { gd = d[p]; goal = p }
         if smart && goal < 0 && c.floor % 3 == 0 && lastShop != c.floor && c.hero.gold >= 60, let s = c.tiles.firstIndex(of: .shop), c.seen[s] { goal = s }
         if goal < 0 {
-            for p in 0..<c.tiles.count where c.seen[p] && c.tiles[p] != .wall && d[p] < gd {
+            for p in 0..<c.tiles.count where c.seen[p] && c.tiles[p] != .wall && d[p] < gd && !visited.contains(p) {
                 if c.near(p).contains(where: { !c.seen[$0] }) { gd = d[p]; goal = p }
             }
         }

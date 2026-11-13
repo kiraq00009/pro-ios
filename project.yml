@@ -105,3 +105,13 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: app.pro.nard
         PRODUCT_NAME: Nard
         INFOPLIST_KEY_CFBundleDisplayName: "نرد"
+  Maghara:
+    type: application
+    platform: iOS
+    sources: [Maghara, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.maghara
+        PRODUCT_NAME: Maghara
+        INFOPLIST_KEY_CFBundleDisplayName: "مغارة"
