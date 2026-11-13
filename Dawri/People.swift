@@ -86,8 +86,7 @@ struct PlayerView: View {
     var body: some View {
         let c = store.careers.first { $0.id == id } ?? Engine.Career(id: id)
         let titles = store.tournaments.filter { $0.champion == id && !$0.friendly }
-        let rivals = store.members.filter { $0.id != id }.map { ($0, Engine.h2h(id, $0.id, store.tournaments)) }.filter { $0.1.aw + $0.1.d + $0.1.bw > 0 }
-            .sorted { $0.1.aw + $0.1.d + $0.1.bw > $1.1.aw + $1.1.d + $1.1.bw }
+        let rivals: [Rival] = rivalList()
         ScrollView {
             VStack(spacing: 14) {
                 VStack(spacing: 8) {
@@ -106,7 +105,9 @@ struct PlayerView: View {
                         HStack { Text("\(c.p) مباراة").font(rnd(15, .heavy)).foregroundStyle(Color.white); Spacer(); Text(String(format: "نسبة الفوز %.0f٪", c.winRate * 100)).font(rnd(13, .heavy)).foregroundStyle(DR.green) }
                         GeometryReader { g in
                             HStack(spacing: 3) {
-                                bar(DR.green, g.size.width * CGFloat(c.w) / CGFloat(c.p)); bar(DR.tx3, g.size.width * CGFloat(c.d) / CGFloat(c.p)); bar(DR.red, g.size.width * CGFloat(c.l) / CGFloat(c.p))
+                                bar(DR.green, share(g.size.width, c.w, c.p))
+                                bar(DR.tx3, share(g.size.width, c.d, c.p))
+                                bar(DR.red, share(g.size.width, c.l, c.p))
                             }
                         }.frame(height: 10).environment(\.layoutDirection, .leftToRight)
                         HStack { key(DR.green, "فوز \(c.w)"); key(DR.tx3, "تعادل \(c.d)"); key(DR.red, "خسارة \(c.l)") }
@@ -138,19 +139,7 @@ struct PlayerView: View {
 
                 if !rivals.isEmpty {
                     section("ضدّ كلّ واحد")
-                    ForEach(rivals, id: \.0.id) { m, h in
-                        HStack(spacing: 10) {
-                            Avatar(name: m.name, color: DR.color(m.color), size: 34)
-                            VStack(alignment: .leading, spacing: 1) {
-                                Text(m.name).font(rnd(15, .heavy)).foregroundStyle(Color.white)
-                                Text("الأهداف \(h.ag) - \(h.bg)").font(rnd(11.5)).foregroundStyle(DR.tx3)
-                            }
-                            Spacer()
-                            HStack(spacing: 5) {
-                                res("\(h.aw)", DR.green); res("\(h.d)", DR.tx3); res("\(h.bw)", DR.red)
-                            }.environment(\.layoutDirection, .leftToRight)
-                        }.padding(12).card(DR.s1, 16)
-                    }
+                    ForEach(rivals) { r in rivalRow(r) }
                     Text("أخضر = فاز عليه · رماديّ = تعادل · أحمر = خسر منه").font(rnd(11)).foregroundStyle(DR.tx3)
                 }
             }.padding(16)
@@ -158,6 +147,32 @@ struct PlayerView: View {
         .background(Backdrop())
         .navigationBarTitleDisplayMode(.inline)
     }
+    struct Rival: Identifiable { let id: UUID; let name: String; let color: Int; let w: Int; let d: Int; let l: Int; let gf: Int; let ga: Int; var total: Int { w + d + l } }
+    private func rivalList() -> [Rival] {
+        var out: [Rival] = []
+        for m in store.members where m.id != id {
+            let h = Engine.h2h(id, m.id, store.tournaments)
+            let r = Rival(id: m.id, name: m.name, color: m.color, w: h.aw, d: h.d, l: h.bw, gf: h.ag, ga: h.bg)
+            if r.total > 0 { out.append(r) }
+        }
+        return out.sorted { $0.total > $1.total }
+    }
+    private func rivalRow(_ r: Rival) -> some View {
+        HStack(spacing: 10) {
+            Avatar(name: r.name, color: DR.color(r.color), size: 34)
+            VStack(alignment: .leading, spacing: 1) {
+                Text(r.name).font(rnd(15, .heavy)).foregroundStyle(Color.white)
+                Text("الأهداف \(r.gf) - \(r.ga)").font(rnd(11.5)).foregroundStyle(DR.tx3)
+            }
+            Spacer()
+            HStack(spacing: 5) {
+                res("\(r.w)", DR.green)
+                res("\(r.d)", DR.tx3)
+                res("\(r.l)", DR.red)
+            }.environment(\.layoutDirection, .leftToRight)
+        }.padding(12).card(DR.s1, 16)
+    }
+    private func share(_ w: CGFloat, _ n: Int, _ of: Int) -> CGFloat { of == 0 ? 0 : w * CGFloat(n) / CGFloat(of) }
     private func bar(_ c: Color, _ w: CGFloat) -> some View { Capsule().fill(c).frame(width: max(0, w - 2)) }
     private func key(_ c: Color, _ t: String) -> some View { HStack(spacing: 5) { Circle().fill(c).frame(width: 8, height: 8); Text(t).font(rnd(12.5, .bold)).foregroundStyle(DR.tx2) }.frame(maxWidth: .infinity) }
     private func tile(_ v: String, _ l: String) -> some View {
