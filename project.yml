@@ -127,3 +127,14 @@ targets:
         INFOPLIST_KEY_CFBundleDisplayName: "شبكة"
         INFOPLIST_KEY_NSLocalNetworkUsageDescription: "نفحص الأجهزة والمنافذ على شبكتك المحليّة. كلّ الفحص يصير على جهازك."
         INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: "iOS يطلب الموقع حتى نبيّنلك اسم شبكة الواي‑فاي (SSID) المتّصل بيها."
+  Shifra:
+    type: application
+    platform: iOS
+    sources: [Shifra, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.shifra
+        PRODUCT_NAME: Shifra
+        INFOPLIST_KEY_CFBundleDisplayName: "شفرة"
+        INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription: "نحفظ الصورة اللي خبّيت بيها رسالتك داخل ألبوم صورك."

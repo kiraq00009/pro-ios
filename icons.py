@@ -126,6 +126,23 @@ def shabaka():
     for (x, y) in nodes:
         d.ellipse([x - 40, y - 40, x + 40, y + 40], fill=(255, 255, 255, 255), outline=C, width=10)
     return im
+def shifra():
+    im = glow(grad((26, 18, 46), (6, 5, 14)), (512, 480), 420, (120, 90, 240), 120)
+    d = ImageDraw.Draw(im)
+    M = (80, 235, 180, 255)
+    # قفل
+    d.rounded_rectangle([332, 470, 692, 760], radius=60, fill=(245, 245, 250, 255))
+    d.arc([372, 250, 652, 560], start=180, end=360, fill=M, width=66)
+    d.rectangle([372, 405, 438, 500], fill=M); d.rectangle([586, 405, 652, 500], fill=M)
+    d.ellipse([482, 560, 542, 620], fill=(40, 30, 70, 255))
+    d.rectangle([503, 600, 521, 690], fill=(40, 30, 70, 255))
+    # بتّات متطايرة
+    import random as _r; _r.seed(9)
+    for _ in range(26):
+        x = _r.randint(120, 904); y = _r.randint(120, 900)
+        if 300 < x < 720 and 230 < y < 780: continue
+        d.text((x, y), _r.choice(['0', '1']), fill=(120, 230, 255, 200))
+    return im
 if __name__ == '__main__':
     for name in sys.argv[1:]:
         save(globals()[name.lower()](), name)

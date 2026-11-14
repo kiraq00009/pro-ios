@@ -1,7 +1,5 @@
-Shabaka app.pro.shabaka home
-Shabaka app.pro.shabaka scan
-Shabaka app.pro.shabaka tools
-Shabaka app.pro.shabaka subnet
-Shabaka app.pro.shabaka dns
-Shabaka app.pro.shabaka wol
-Shabaka app.pro.shabaka security
+Shifra app.pro.shifra home
+Shifra app.pro.shifra decrypt
+Shifra app.pro.shifra photo
+Shifra app.pro.shifra reveal
+Shifra app.pro.shifra pass
