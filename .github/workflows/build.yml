@@ -14,13 +14,15 @@ jobs:
 
       - name: Logic tests
         run: |
-          set -e
+          ok=1
           for T in $(ls Tests); do
             A=$(cat Tests/$T/app.txt)
             echo "== $T"
-            swiftc -O $A/Model/*.swift Tests/$T/main.swift -o /tmp/t_$T
-            /tmp/t_$T
+            swiftc -O $A/Model/*.swift Tests/$T/main.swift -o /tmp/t_$T > test-$T.log 2>&1
+            if [ $? -ne 0 ]; then echo "::error::$T compile failed"; tail -40 test-$T.log; ok=0; continue; fi
+            /tmp/t_$T >> test-$T.log 2>&1 || { echo "::error::$T tests failed"; tail -40 test-$T.log; ok=0; }
           done
+          test $ok = 1
 
       - name: Generate project (XcodeGen)
         run: brew install xcodegen && xcodegen generate
@@ -75,5 +77,6 @@ jobs:
           path: |
             *-unsigned.ipa
             build-*.log
+            test-*.log
             sim-*.log
             shots

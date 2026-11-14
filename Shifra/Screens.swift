@@ -123,8 +123,11 @@ struct PhotoScreen: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 15) {
                 header("رسالة داخل صورة", "خبّي رسالة سرّيّة جوّه صورة عاديّة — تبيّن صورة طبيعيّة بس داخلها كلامك.")
-                Picker("", selection: $mode) { Text("خبّي رسالة").tag(0); Text("اكشف رسالة").tag(1) }
-                    .pickerStyle(.segmented).onChange(of: mode) { _ in reset() }
+                Picker("", selection: $mode) {
+                    Text("خبّي رسالة").tag(0)
+                    Text("اكشف رسالة").tag(1)
+                }
+                .pickerStyle(.segmented).onChange(of: mode) { _ in reset() }
                 photoBox
                 if mode == 0 {
                     VStack(alignment: .leading, spacing: 6) {
