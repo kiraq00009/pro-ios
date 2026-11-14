@@ -41,10 +41,17 @@ func bot(_ seed: UInt64, smart: Bool) -> Cave {
         n += 1
         check(c.hero.hp > 0 && c.hero.hp <= c.hero.maxHp, "hp out of range")
         if c.floor != lastFloor { lastFloor = c.floor; stuck = 0 } else { stuck += 1 }
-        if stuck > 60 {
-            let dirs = (0..<4).filter { let t = c.near(c.hero.pos)[$0]; return t >= 0 && t < c.tiles.count && c.tiles[t] != .wall }
-            if let d = dirs.randomElement() { if !c.act(d) { c.rest() } } else { c.rest() }
-            if stuck > 1500 { gaveUp = true; break }
+        if stuck > 50 {
+            // عالق: إذا طابق زعيم هاجم الزعيم (تفوز أو تموت)، وإلّا بيّن للباب أو امشِ عشوائيّ
+            if let b = c.mons.first(where: { Bestiary.all[$0.kind].boss }), let dir = c.step(toward: b.pos) ?? c.near(c.hero.pos).firstIndex(where: { c.monAt($0) == b.pos ? true : false }) {
+                if !c.act(dir) { c.rest() }
+            } else if let e = c.tiles.firstIndex(of: .exit), c.seen[e], let dir = c.step(toward: e) {
+                if !c.act(dir) { c.rest() }
+            } else {
+                let dirs = (0..<4).filter { let t = c.near(c.hero.pos)[$0]; return t >= 0 && t < c.tiles.count && c.tiles[t] != .wall }
+                if let d = dirs.randomElement() { if !c.act(d) { c.rest() } } else { c.rest() }
+            }
+            if stuck > 1200 { gaveUp = true; break }
             continue
         }
         check(c.monAt(c.hero.pos) == nil, "monster on hero")
