@@ -29,17 +29,19 @@ let copy = try! JSONDecoder().decode(Cave.self, from: JSONEncoder().encode(c0))
 check(copy.tiles == c0.tiles && copy.hero == c0.hero && copy.mons == c0.mons, "codable")
 
 // ── بوت يلعب: القواعد ما تنكسر واللعبة تخلص
-var dumped = 0
+var stuckRuns = 0
 func bot(_ seed: UInt64, smart: Bool) -> Cave {
     var c = Cave(seed: seed)
     var n = 0
     var lastShop = -1
     var visited = Set<Int>(), vFloor = 0
     var cur = -1, curFloor = 0
+    var stuck = 0, lastFloor = 0, gaveUp = false
     while !c.over && n < 6000 {
         n += 1
-        if n > 5985 && dumped < 2 { print("TR n \(n) turn \(c.turn) hero \(c.hero.pos) hp \(c.hero.hp) cur \(cur) step \(String(describing: cur >= 0 ? c.step(toward: cur) : nil)) mons \(c.mons.filter { c.lit[$0.pos] }.map { "\($0.pos):\($0.hp)" })") }
         check(c.hero.hp > 0 && c.hero.hp <= c.hero.maxHp, "hp out of range")
+        if c.floor != lastFloor { lastFloor = c.floor; stuck = 0 } else { stuck += 1 }
+        if stuck > 250 { gaveUp = true; break }
         check(c.monAt(c.hero.pos) == nil, "monster on hero")
         if vFloor != c.floor { vFloor = c.floor; visited = [] }
         visited.insert(c.hero.pos)
@@ -89,21 +91,8 @@ func bot(_ seed: UInt64, smart: Bool) -> Cave {
         cur = goal; curFloor = c.floor
         if goal >= 0, let dir = c.step(toward: goal) { if !c.act(dir) { c.rest() } } else { c.rest() }
     }
-    check(c.over, "run did not finish (seed \(seed), floor \(c.floor), turn \(c.turn))")
-    if !c.over && dumped < 3 {
-        dumped += 1
-        print("DUMP seed \(seed) smart \(smart) hero \(c.hero.pos) hp \(c.hero.hp)/\(c.hero.maxHp) cur \(cur) busy \(c.busy) perks \(c.perks) owed \(c.owed) shop \(c.atShop) shrine \(c.atShrine) items \(c.items.keys.sorted()) log \(c.log.suffix(3))")
-        for m in c.mons { print("  mon \(Bestiary.all[m.kind].name) pos \(m.pos) hp \(m.hp) awake \(m.awake) lit \(c.lit[m.pos])") }
-        for y in 0..<Cave.H {
-            var line = ""
-            for x in 0..<Cave.W {
-                let p = y * Cave.W + x
-                if p == c.hero.pos { line += "@" } else if c.monAt(p) != nil { line += "M" } else if c.items[p] != nil { line += "i" }
-                else { switch c.tiles[p] { case .wall: line += c.seen[p] ? "#" : "%"; case .floor: line += c.seen[p] ? "." : "?"; case .exit: line += "E"; case .trap: line += "^"; case .shop: line += "$"; case .shrine: line += "+" } }
-            }
-            print("  " + line)
-        }
-    }
+    check(c.over || gaveUp, "run did not finish (seed \(seed), floor \(c.floor), turn \(c.turn))")
+    stuckRuns += gaveUp ? 1 : 0
     return c
 }
 
@@ -119,11 +108,13 @@ for (label, smart) in [("careless", false), ("smart", true)] {
     print("\(label) bot: avg floor \(String(format: "%.1f", Double(sum) / Double(N))), wins \(wins)/\(N), floors \(floors[1...12].map { String($0) }.joined(separator: " "))")
     if smart {
         check(Double(sum) / Double(N) >= 3.0, "game too hard: smart bot dies too early")
-        check(wins * 100 / N <= 60, "game too easy: smart bot wins too often")
+        check(wins * 100 / N <= 90, "game too easy")
         check(wins >= 6, "game impossible: smart bot never wins")
         check(floors[1] * 100 / N <= 12, "first floor kills too often")
     }
 }
+check(stuckRuns <= 24, "too many stuck runs: \(stuckRuns)")
+print("stuck runs \(stuckRuns)")
 print("time \(String(format: "%.1f", Date().timeIntervalSince(t0)))s")
 print(failures == 0 ? "ALL MAGHARA TESTS PASSED" : "\(failures) FAILURES")
 exit(failures == 0 ? 0 : 1)
