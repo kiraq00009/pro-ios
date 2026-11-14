@@ -28,6 +28,7 @@ final class Store: ObservableObject {
 
     func refresh() {
         guard !Shot.on else { return }
+        Perms.shared.requestLocation()
         conn = LiveNet.localInfo()
         loaded = true
     }
@@ -37,7 +38,7 @@ final class Store: ObservableObject {
         scanning = true; devices = []; scanDone = 0
         let selfIP = conn.ip, gw = conn.gateway
         Task {
-            await LiveNet.scanLAN(sub) { d in
+            await LiveNet.scanLAN(sub, gateway: gw, selfIP: selfIP, onDevice: { d in
                 Task { @MainActor in
                     var dev = d
                     dev.isSelf = d.ip == selfIP
@@ -48,10 +49,10 @@ final class Store: ObservableObject {
                         self.devices.append(dev)
                         self.devices.sort { $0.ip.raw < $1.ip.raw }
                     }
-                    self.scanDone += 1
                 }
-            }
-            await MainActor.run { self.scanning = false }
+            }, done: { n in
+                Task { @MainActor in self.scanDone = n; self.scanning = false; self.conn.localDenied = (n == 0) }
+            })
         }
     }
 
@@ -139,7 +140,7 @@ struct RootView: View {
                 store.ping = PingStat(sent: 10, samples: [13, 15, 12, 14, 13, 16, 12, 13, 14, 13])
                 switch Shot.name {
                 case "scan": tab = 1
-                case "tools", "subnet", "wol", "dns": tab = 2
+                case "tools", "subnet", "wol", "dns", "websec", "pubip": tab = 2
                 case "security": tab = 3
                 default: tab = 0
                 }

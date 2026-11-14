@@ -78,5 +78,39 @@ check(Audit.score(devices: 8, riskyPorts: 0, encrypted: true, guestFound: false)
 check(Audit.score(devices: 8, riskyPorts: 2, encrypted: true, guestFound: false) == 76, "risky ports deduct")
 check(Audit.score(devices: 40, riskyPorts: 3, encrypted: false, guestFound: true) < 50, "bad network low")
 
+// ── أمن ويب: تحليل الرؤوس
+let weak = WebSec.analyze(headers: ["Server": "nginx/1.18.0"])
+check(weak.score < 40 && weak.grade == "F", "no security headers = F: \(weak.score)")
+check(weak.checks.contains { $0.name.contains("Server") && !$0.present }, "flags server version leak")
+let strong = WebSec.analyze(headers: ["Strict-Transport-Security": "max-age=63072000", "Content-Security-Policy": "default-src 'self'", "X-Frame-Options": "DENY", "X-Content-Type-Options": "nosniff", "Referrer-Policy": "no-referrer", "Permissions-Policy": "geolocation=()"])
+check(strong.score >= 85 && strong.grade == "A", "all headers = A: \(strong.score)")
+check(WebSec.analyze(headers: [:]).checks.count >= 6, "lists all checks")
+
+// ── استشارات الخدمات
+let adv = Advisories.forPorts([23, 445, 80])
+check(adv.contains { $0.title.contains("Telnet") && $0.severity == 4 }, "telnet critical")
+check(adv.contains { $0.title.contains("SMB") }, "smb flagged")
+check(adv.first!.severity >= adv.last!.severity, "sorted by severity")
+check(Advisories.forPorts([443, 993]).isEmpty, "safe ports no advisory")
+check(Advisories.maxSeverity([3389, 80]) == 4, "rdp max severity")
+check(Advisories.maxSeverity([443]) == 0, "safe max severity 0")
+
+// ── كلمات السرّ الافتراضيّة
+check(DefaultCreds.forVendor("TP-Link").contains { $0.user == "admin" }, "tplink defaults")
+check(DefaultCreds.forVendor("Raspberry Pi").contains { $0.pass.contains("raspberry") }, "raspberry defaults")
+check(DefaultCreds.forVendor("Apple").isEmpty, "no defaults for apple")
+check(DefaultCreds.known.count >= 7, "has default cred list")
+
+// ── تقرير شامل
+let rep = Report.build([("كاميرا", "192.168.1.10", [23, 554]), ("راوتر", "192.168.1.1", [80, 443]), ("سيرفر", "192.168.1.5", [3389, 445])])
+check(rep.critical >= 2 && rep.vulns.first!.advisory.severity == 4, "report ranks critical first")
+check(rep.score < 70 && rep.score >= 0, "vulnerable network low score: \(rep.score)")
+check(Report.build([("هاتف", "192.168.1.2", [62078]), ("لابتوب", "192.168.1.3", [443])]).score == 100, "clean network perfect")
+
+// ── إشارة الواي‑فاي
+check(Signal.quality(dBm: -45).label == "ممتاز" && Signal.quality(dBm: -45).percent > 70, "strong signal")
+check(Signal.quality(dBm: -85).label == "سيّئ", "weak signal")
+check(Signal.quality(dBm: -200).percent == 0 && Signal.quality(dBm: 0).percent == 100, "signal clamped")
+
 print(failures == 0 ? "ALL SHABAKA TESTS PASSED" : "\(failures) FAILURES")
 exit(failures == 0 ? 0 : 1)
