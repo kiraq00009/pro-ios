@@ -60,7 +60,11 @@ final class Run: ObservableObject {
 
     static var dailySeed: UInt64 {
         let c = Calendar.current.dateComponents([.year, .month, .day], from: Date())
-        return UInt64((c.year ?? 2026) * 10000 + (c.month ?? 1) * 100 + (c.day ?? 1))
+        let y: Int = c.year ?? 2026
+        let m: Int = c.month ?? 1
+        let d: Int = c.day ?? 1
+        let n: Int = y * 10000 + m * 100 + d
+        return UInt64(n)
     }
 
     func start(seed: UInt64) {
