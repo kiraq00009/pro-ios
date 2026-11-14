@@ -110,6 +110,22 @@ def maghara():
     d.polygon([(512, 300), (590, 520), (434, 520)], fill=(255, 170, 60, 255))
     d.rounded_rectangle([482, 700, 542, 900], radius=20, fill=(120, 76, 40, 255))
     return im
+def shabaka():
+    im = glow(grad((8, 20, 30), (3, 7, 12)), (512, 520), 420, (60, 200, 230), 110)
+    d = ImageDraw.Draw(im)
+    C = (70, 220, 245, 255); cx, cy = 512, 600
+    # أقواس إشارة
+    for i, r in enumerate([150, 300, 450]):
+        col = (70, 220, 245, 255) if i < 3 else C
+        d.arc([cx - r, cy - r, cx + r, cy + r], start=225, end=315, fill=col, width=46)
+    d.ellipse([cx - 48, cy - 48, cx + 48, cy + 48], fill=C)
+    # عقد شبكة فوق
+    nodes = [(300, 250), (512, 180), (724, 250)]
+    for (x, y) in nodes:
+        d.line([(cx, cy - 10), (x, y)], fill=(70, 220, 245, 120), width=12)
+    for (x, y) in nodes:
+        d.ellipse([x - 40, y - 40, x + 40, y + 40], fill=(255, 255, 255, 255), outline=C, width=10)
+    return im
 if __name__ == '__main__':
     for name in sys.argv[1:]:
         save(globals()[name.lower()](), name)
