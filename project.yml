@@ -138,3 +138,113 @@ targets:
         PRODUCT_NAME: Shifra
         INFOPLIST_KEY_CFBundleDisplayName: "شفرة"
         INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription: "نحفظ الصورة اللي خبّيت بيها رسالتك داخل ألبوم صورك."
+  Sudoku:
+    type: application
+    platform: iOS
+    sources: [Sudoku, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.sudoku
+        PRODUCT_NAME: Sudoku
+        INFOPLIST_KEY_CFBundleDisplayName: "سودوكو"
+  Algham:
+    type: application
+    platform: iOS
+    sources: [Algham, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.algham
+        PRODUCT_NAME: Algham
+        INFOPLIST_KEY_CFBundleDisplayName: "ألغام"
+  Damj:
+    type: application
+    platform: iOS
+    sources: [Damj, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.damj
+        PRODUCT_NAME: Damj
+        INFOPLIST_KEY_CFBundleDisplayName: "دمج"
+  Katla:
+    type: application
+    platform: iOS
+    sources: [Katla, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.katla
+        PRODUCT_NAME: Katla
+        INFOPLIST_KEY_CFBundleDisplayName: "كتلة"
+  Jawahir:
+    type: application
+    platform: iOS
+    sources: [Jawahir, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.jawahir
+        PRODUCT_NAME: Jawahir
+        INFOPLIST_KEY_CFBundleDisplayName: "جواهر"
+  Wassel:
+    type: application
+    platform: iOS
+    sources: [Wassel, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.wassel
+        PRODUCT_NAME: Wassel
+        INFOPLIST_KEY_CFBundleDisplayName: "وصّل"
+  Bixel:
+    type: application
+    platform: iOS
+    sources: [Bixel, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.bixel
+        PRODUCT_NAME: Bixel
+        INFOPLIST_KEY_CFBundleDisplayName: "بكسل"
+  Kalimat:
+    type: application
+    platform: iOS
+    sources: [Kalimat, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.kalimat
+        PRODUCT_NAME: Kalimat
+        INFOPLIST_KEY_CFBundleDisplayName: "كلمات"
+  Solitaire:
+    type: application
+    platform: iOS
+    sources: [Solitaire, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.solitaire
+        PRODUCT_NAME: Solitaire
+        INFOPLIST_KEY_CFBundleDisplayName: "سوليتير"
+  Thakira:
+    type: application
+    platform: iOS
+    sources: [Thakira, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.thakira
+        PRODUCT_NAME: Thakira
+        INFOPLIST_KEY_CFBundleDisplayName: "ذاكرة"
+  Film:
+    type: application
+    platform: iOS
+    sources: [Film, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.film
+        PRODUCT_NAME: Film
+        INFOPLIST_KEY_CFBundleDisplayName: "ليلة فيلم"

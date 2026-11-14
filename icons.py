@@ -143,6 +143,168 @@ def shifra():
         if 300 < x < 720 and 230 < y < 780: continue
         d.text((x, y), _r.choice(['0', '1']), fill=(120, 230, 255, 200))
     return im
+
+def _font(sz, bold=False):
+    from PIL import ImageFont
+    names = ["arialbd.ttf","ariblk.ttf","arial.ttf"] if bold else ["arial.ttf","arialbd.ttf"]
+    for n in names:
+        try: return ImageFont.truetype(n, sz)
+        except: pass
+    return ImageFont.load_default()
+
+def sudoku():
+    im = glow(grad((28, 36, 72), (8, 10, 26)), (512, 480), 420, (90, 130, 255), 110)
+    d = ImageDraw.Draw(im)
+    x0, y0, sz = 212, 212, 600; c = sz / 9
+    d.rounded_rectangle([x0-16, y0-16, x0+sz+16, y0+sz+16], radius=40, fill=(245, 247, 255, 255))
+    for i in range(10):
+        w = 10 if i % 3 == 0 else 3
+        col = (40, 60, 140, 255) if i % 3 == 0 else (170, 185, 230, 255)
+        d.line([(x0+i*c, y0), (x0+i*c, y0+sz)], fill=col, width=w)
+        d.line([(x0, y0+i*c), (x0+sz, y0+i*c)], fill=col, width=w)
+    f = _font(66, True)
+    nums = {(0,0):"5",(1,1):"3",(2,2):"7",(0,4):"9",(4,4):"2",(8,8):"1",(3,6):"6",(6,3):"8",(7,1):"4"}
+    for (r,cc),n in nums.items():
+        d.text((x0+cc*c+c/2, y0+r*c+c/2), n, fill=(40, 60, 140, 255), anchor="mm", font=f)
+    return im
+
+def algham():
+    import math as _m
+    im = glow(grad((40, 46, 60), (10, 12, 20)), (512, 480), 420, (255, 90, 70), 120)
+    d = ImageDraw.Draw(im)
+    for i in range(5):
+        for j in range(5):
+            x, y = 190+j*130, 190+i*130
+            d.rounded_rectangle([x, y, x+118, y+118], radius=18, fill=(60, 68, 88, 255) if (i+j)%2 else (72, 82, 104, 255))
+    cx, cy = 512, 512
+    d.ellipse([cx-120, cy-120, cx+120, cy+120], fill=(20, 22, 30, 255))
+    for a in range(0, 360, 45):
+        x2, y2 = cx+_m.cos(_m.radians(a))*165, cy+_m.sin(_m.radians(a))*165
+        d.line([(cx, cy), (x2, y2)], fill=(20, 22, 30, 255), width=26)
+    d.ellipse([cx-40, cy-70, cx-4, cy-34], fill=(255, 255, 255, 230))
+    return im
+
+def damj():
+    im = glow(grad((60, 50, 30), (22, 18, 10)), (512, 480), 420, (255, 200, 90), 120)
+    d = ImageDraw.Draw(im)
+    d.rounded_rectangle([180, 180, 844, 844], radius=46, fill=(70, 62, 48, 255))
+    cols = {2:(238,228,218),512:(237,200,80),1024:(237,150,60),2048:(237,120,70)}
+    vals = [[2,512],[1024,2048]]
+    f = _font(92, True)
+    for i in range(2):
+        for j in range(2):
+            v = vals[i][j]; x, y = 212+j*322, 212+i*322
+            d.rounded_rectangle([x, y, x+300, y+300], radius=30, fill=cols[v]+(255,))
+            col = (120, 110, 100, 255) if v <= 4 else (255, 255, 255, 255)
+            d.text((x+150, y+150), str(v), fill=col, anchor="mm", font=f)
+    return im
+
+def katla():
+    im = glow(grad((30, 24, 50), (10, 8, 18)), (512, 480), 420, (150, 120, 255), 110)
+    d = ImageDraw.Draw(im)
+    d.rounded_rectangle([170, 170, 854, 854], radius=44, fill=(36, 30, 56, 255))
+    c = 76
+    for i in range(8):
+        for j in range(8):
+            d.rounded_rectangle([190+j*c, 190+i*c, 190+j*c+66, 190+i*c+66], radius=10, fill=(48, 40, 72, 255))
+    cells = {(2,2):(255,110,120),(2,3):(255,110,120),(3,2):(255,110,120),(1,5):(90,210,160),(2,5):(90,210,160),(3,5):(90,210,160),(5,1):(255,200,90),(5,2):(255,200,90),(6,1):(90,180,255),(6,2):(90,180,255),(6,3):(90,180,255),(5,5):(200,130,255),(5,6):(200,130,255)}
+    for (i,j),col in cells.items():
+        d.rounded_rectangle([190+j*c, 190+i*c, 190+j*c+66, 190+i*c+66], radius=10, fill=col+(255,))
+    return im
+
+def jawahir():
+    im = glow(grad((40, 20, 60), (12, 8, 24)), (512, 500), 420, (255, 120, 220), 120)
+    d = ImageDraw.Draw(im)
+    cx, cy = 512, 520
+    d.polygon([(cx-230, cy-120), (cx-150, cy-240), (cx+150, cy-240), (cx+230, cy-120), (cx, cy+260)], fill=(255, 90, 200, 255))
+    d.polygon([(cx-230, cy-120), (cx, cy-120), (cx, cy+260)], fill=(255, 140, 220, 255))
+    d.polygon([(cx-150, cy-240), (cx, cy-120), (cx-230, cy-120)], fill=(255, 180, 235, 255))
+    d.polygon([(cx+150, cy-240), (cx, cy-120), (cx+230, cy-120)], fill=(220, 60, 170, 255))
+    d.line([(cx-150, cy-240), (cx-230, cy-120)], fill=(255, 255, 255, 180), width=8)
+    return im
+
+def wassel():
+    im = glow(grad((12, 30, 40), (4, 10, 16)), (512, 500), 420, (60, 220, 200), 110)
+    d = ImageDraw.Draw(im)
+    d.rounded_rectangle([180, 180, 844, 844], radius=44, fill=(14, 24, 34, 255))
+    def dot(x, y, col): d.ellipse([x-46, y-46, x+46, y+46], fill=col)
+    d.line([(300, 300), (300, 540), (540, 540), (720, 540), (720, 720)], fill=(255, 120, 90, 255), width=48, joint="curve")
+    d.line([(720, 300), (480, 300), (480, 500), (300, 720)], fill=(90, 200, 255, 255), width=48, joint="curve")
+    dot(300, 300, (255, 120, 90, 255)); dot(720, 720, (255, 120, 90, 255))
+    dot(720, 300, (90, 200, 255, 255)); dot(300, 720, (90, 200, 255, 255))
+    return im
+
+def bixel():
+    im = glow(grad((24, 30, 44), (8, 10, 18)), (512, 480), 420, (120, 200, 255), 110)
+    d = ImageDraw.Draw(im); c = 90
+    x0, y0 = 232, 232
+    heart = [(1,2),(1,4),(2,1),(2,2),(2,3),(2,4),(2,5),(3,2),(3,3),(3,4),(4,3)]
+    for i in range(6):
+        for j in range(6):
+            on = (i,j) in heart
+            col = (255, 90, 120, 255) if on else (40, 48, 64, 255)
+            d.rounded_rectangle([x0+j*c, y0+i*c, x0+j*c+80, y0+i*c+80], radius=10, fill=col)
+    return im
+
+def kalimat():
+    im = glow(grad((20, 40, 36), (8, 16, 14)), (512, 480), 420, (90, 230, 170), 110)
+    d = ImageDraw.Draw(im)
+    d.rounded_rectangle([180, 180, 844, 844], radius=44, fill=(16, 30, 26, 255))
+    f = _font(72)
+    letters = list("كلماتبحرشمسقلمنجف")
+    c = 128; idx = 0
+    for i in range(5):
+        for j in range(5):
+            ch = letters[idx % len(letters)]; idx += 1
+            on = (i+j) % 3 == 0
+            if on: d.rounded_rectangle([210+j*c, 210+i*c, 210+j*c+116, 210+i*c+116], radius=16, fill=(90, 220, 160, 255))
+            d.text((210+j*c+58, 210+i*c+58), ch, fill=(255,255,255,255) if on else (150,180,170,255), anchor="mm", font=f)
+    return im
+
+def solitaire():
+    im = glow(grad((12, 50, 34), (4, 20, 14)), (512, 480), 440, (40, 180, 110), 110)
+    d = ImageDraw.Draw(im)
+    d.rounded_rectangle([260, 280, 560, 700], radius=36, fill=(250, 250, 248, 255), outline=(200,200,200,255), width=3)
+    f = _font(150, True); fs = _font(80)
+    d.text((410, 470), "A", fill=(20, 20, 24, 255), anchor="mm", font=f)
+    d.text((410, 600), "\u2660", fill=(20, 20, 24, 255), anchor="mm", font=f)
+    d.text((305, 335), "A", fill=(20,20,24,255), anchor="mm", font=fs)
+    return im
+
+def thakira():
+    import math as _m
+    im = glow(grad((44, 24, 54), (14, 8, 22)), (512, 480), 420, (200, 120, 255), 120)
+    d = ImageDraw.Draw(im)
+    # بطاقة يسار مكشوفة: نجمة ذهبيّة
+    d.rounded_rectangle([200, 300, 468, 724], radius=34, fill=(250, 248, 255, 255))
+    cx, cy, R, r = 334, 512, 92, 40
+    pts = []
+    for k in range(10):
+        ang = _m.radians(-90 + k*36); rad = R if k%2==0 else r
+        pts.append((cx+_m.cos(ang)*rad, cy+_m.sin(ang)*rad))
+    d.polygon(pts, fill=(255, 190, 60, 255))
+    # بطاقة يمين مقلوبة: ظهر بنفسجيّ بنقش
+    d.rounded_rectangle([556, 300, 824, 724], radius=34, fill=(120, 70, 220, 255))
+    d.rounded_rectangle([580, 324, 800, 700], radius=24, outline=(180, 150, 255, 255), width=8)
+    for gx in range(620, 790, 48):
+        for gy in range(360, 690, 48):
+            d.ellipse([gx-10, gy-10, gx+10, gy+10], fill=(180, 150, 255, 200))
+    return im
+
+def film():
+    im = glow(grad((40, 22, 8), (14, 8, 3)), (512, 480), 440, (255, 130, 30), 140)
+    d = ImageDraw.Draw(im)
+    OR = (255, 125, 20, 255)
+    d.rounded_rectangle([210, 360, 814, 760], radius=40, fill=(26, 20, 14, 255), outline=OR, width=14)
+    d.rectangle([210, 360, 814, 430], fill=OR)
+    d.polygon([(250, 300), (320, 360), (380, 300), (310, 240)], fill=OR)
+    for k in range(6):
+        d.rounded_rectangle([250+k*96, 470, 250+k*96+70, 540], radius=8, fill=(255,255,255,40))
+        d.rounded_rectangle([250+k*96, 630, 250+k*96+70, 700], radius=8, fill=(255,255,255,40))
+    d.ellipse([456, 490, 568, 602], fill=OR)
+    d.polygon([(500, 520), (500, 572), (548, 546)], fill=(26, 20, 14, 255))
+    return im
+
 if __name__ == '__main__':
     for name in sys.argv[1:]:
         save(globals()[name.lower()](), name)
