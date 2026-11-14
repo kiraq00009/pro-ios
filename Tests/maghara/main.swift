@@ -41,7 +41,12 @@ func bot(_ seed: UInt64, smart: Bool) -> Cave {
         n += 1
         check(c.hero.hp > 0 && c.hero.hp <= c.hero.maxHp, "hp out of range")
         if c.floor != lastFloor { lastFloor = c.floor; stuck = 0 } else { stuck += 1 }
-        if stuck > 250 { gaveUp = true; break }
+        if stuck > 60 {
+            let dirs = (0..<4).filter { let t = c.near(c.hero.pos)[$0]; return t >= 0 && t < c.tiles.count && c.tiles[t] != .wall }
+            if let d = dirs.randomElement() { if !c.act(d) { c.rest() } } else { c.rest() }
+            if stuck > 1500 { gaveUp = true; break }
+            continue
+        }
         check(c.monAt(c.hero.pos) == nil, "monster on hero")
         if vFloor != c.floor { vFloor = c.floor; visited = [] }
         visited.insert(c.hero.pos)
