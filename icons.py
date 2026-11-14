@@ -305,6 +305,42 @@ def film():
     d.polygon([(500, 520), (500, 572), (548, 546)], fill=(26, 20, 14, 255))
     return im
 
+
+def tarjuman():
+    im = glow(grad((6, 40, 44), (2, 10, 14)), (512, 470), 440, (40, 220, 210), 110)
+    d = ImageDraw.Draw(im)
+    T = (42, 214, 204, 255); G = (255, 199, 92, 255)
+    d.rounded_rectangle([150, 230, 600, 560], radius=90, fill=T)
+    d.polygon([(250, 540), (220, 660), (340, 545)], fill=T)
+    d.rounded_rectangle([424, 470, 874, 800], radius=90, fill=G)
+    d.polygon([(774, 780), (804, 900), (684, 785)], fill=G)
+    f = _font(230, True)
+    d.text((375, 392), "ع", fill=(6, 40, 44, 255), anchor="mm", font=f)
+    d.text((649, 630), "ف", fill=(40, 26, 6, 255), anchor="mm", font=f)
+    return im
+
+def sada():
+    im = glow(grad((26, 20, 44), (8, 6, 16)), (512, 500), 440, (160, 120, 255), 120)
+    d = ImageDraw.Draw(im)
+    L = (178, 255, 108, 255)
+    hs = [90, 180, 300, 210, 360, 240, 140]
+    for i, h in enumerate(hs):
+        x = 190 + i * 66
+        d.rounded_rectangle([x, 420 - h / 2, x + 38, 420 + h / 2], radius=19, fill=L)
+    for k, w in enumerate([620, 520, 580]):
+        y = 650 + k * 82
+        d.rounded_rectangle([200, y, 200 + w, y + 40], radius=20, fill=(255, 255, 255, 230 - k * 50))
+    return im
+
+def montage():
+    im = glow(grad((40, 10, 22), (10, 4, 8)), (512, 460), 440, (255, 60, 110), 130)
+    d = ImageDraw.Draw(im)
+    d.rounded_rectangle([250, 140, 774, 884], radius=70, fill=(24, 20, 26, 255), outline=(255, 60, 102, 255), width=18)
+    d.polygon([(450, 360), (450, 560), (620, 460)], fill=(255, 255, 255, 235))
+    d.rounded_rectangle([300, 650, 724, 720], radius=24, fill=(255, 212, 0, 255))
+    d.rounded_rectangle([350, 745, 674, 800], radius=22, fill=(255, 255, 255, 220))
+    return im
+
 if __name__ == '__main__':
     for name in sys.argv[1:]:
         save(globals()[name.lower()](), name)

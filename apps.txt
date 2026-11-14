@@ -19,3 +19,6 @@ Kalimat
 Solitaire
 Thakira
 Film
+Tarjuman
+Sada
+Montage

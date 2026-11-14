@@ -248,3 +248,72 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: app.pro.film
         PRODUCT_NAME: Film
         INFOPLIST_KEY_CFBundleDisplayName: "ليلة فيلم"
+  Tarjuman:
+    type: application
+    platform: iOS
+    sources: [Tarjuman, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.tarjuman
+        PRODUCT_NAME: Tarjuman
+        INFOPLIST_KEY_CFBundleDisplayName: "ترجمان"
+        INFOPLIST_KEY_NSMicrophoneUsageDescription: "حتى تحجي ويترجم كلامك للطرف الثاني."
+        INFOPLIST_KEY_NSSpeechRecognitionUsageDescription: "حتى نفهم الكلام على الموبايل نفسه إذا السيرفر ما يوصل."
+        INFOPLIST_KEY_NSCameraUsageDescription: "حتى تصوّر منيو أو لافتة وتطلع مترجمة."
+  Sada:
+    type: application
+    platform: iOS
+    sources: [Sada, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.sada
+        PRODUCT_NAME: Sada
+        GENERATE_INFOPLIST_FILE: NO
+    info:
+      path: Sada/Info.plist
+      properties:
+        CFBundleDisplayName: "صدى"
+        CFBundleShortVersionString: "1.0"
+        CFBundleVersion: "1"
+        UILaunchScreen: {}
+        UIUserInterfaceStyle: Dark
+        UIStatusBarStyle: UIStatusBarStyleLightContent
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        UIBackgroundModes: [audio]
+        ITSAppUsesNonExemptEncryption: false
+        LSSupportsOpeningDocumentsInPlace: false
+        NSMicrophoneUsageDescription: "حتى تسجّل اجتماع أو محاضرة وتنكتب لحالها."
+        NSSpeechRecognitionUsageDescription: "حتى نفرّغ الصوت على الموبايل إذا السيرفر ما يوصل."
+        CFBundleDocumentTypes:
+          - CFBundleTypeName: "بصمة صوتيّة"
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Alternate
+            LSItemContentTypes: [public.audio, public.mpeg-4-audio, com.apple.m4a-audio, public.mp3, com.microsoft.waveform-audio, org.xiph.opus, org.xiph.ogg-audio, public.movie, public.mpeg-4, com.apple.quicktime-movie]
+        UTImportedTypeDeclarations:
+          - UTTypeIdentifier: org.xiph.opus
+            UTTypeDescription: "Opus audio"
+            UTTypeConformsTo: [public.audio, public.data]
+            UTTypeTagSpecification:
+              public.filename-extension: [opus]
+              public.mime-type: [audio/opus]
+          - UTTypeIdentifier: org.xiph.ogg-audio
+            UTTypeDescription: "Ogg audio"
+            UTTypeConformsTo: [public.audio, public.data]
+            UTTypeTagSpecification:
+              public.filename-extension: [ogg, oga]
+              public.mime-type: [audio/ogg]
+  Montage:
+    type: application
+    platform: iOS
+    sources: [Montage, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.montage
+        PRODUCT_NAME: Montage
+        INFOPLIST_KEY_CFBundleDisplayName: "مونتاج"
+        INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription: "حتى نحفظ الفيديو المترجم بألبوم صورك."
+        INFOPLIST_KEY_NSPhotoLibraryUsageDescription: "حتى تختار فيديو من ألبومك."
+        INFOPLIST_KEY_NSSpeechRecognitionUsageDescription: "حتى نسمع الفيديو على الموبايل إذا السيرفر ما يوصل."
