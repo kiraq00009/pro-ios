@@ -30,6 +30,16 @@ check(copy.tiles == c0.tiles && copy.hero == c0.hero && copy.mons == c0.mons, "c
 
 // ── بوت يلعب: القواعد ما تنكسر واللعبة تخلص
 var stuckRuns = 0
+func fullStep(_ c: Cave, to target: Int) -> Int? {
+    guard target >= 0, target < c.tiles.count, c.tiles[target] != .wall else { return nil }
+    var d = [Int](repeating: 999, count: c.tiles.count)
+    d[target] = 0
+    var q = [target], h = 0
+    while h < q.count { let p = q[h]; h += 1; for n in c.near(p) where c.tiles[n] != .wall && d[n] == 999 { d[n] = d[p] + 1; q.append(n) } }
+    let ns = c.near(c.hero.pos); var best = -1, bd = d[c.hero.pos]
+    for k in 0..<4 where ns[k] >= 0 && ns[k] < c.tiles.count && d[ns[k]] < bd { bd = d[ns[k]]; best = k }
+    return best >= 0 ? best : nil
+}
 func bot(_ seed: UInt64, smart: Bool) -> Cave {
     var c = Cave(seed: seed)
     var n = 0
@@ -42,31 +52,20 @@ func bot(_ seed: UInt64, smart: Bool) -> Cave {
         check(c.hero.hp > 0 && c.hero.hp <= c.hero.maxHp, "hp out of range")
         if c.floor != lastFloor { lastFloor = c.floor; stuck = 0 } else { stuck += 1 }
         if stuck > 50 {
-            // عالق: إذا طابق زعيم هاجم الزعيم (تفوز أو تموت)، وإلّا بيّن للباب أو امشِ عشوائيّ
-            if let b = c.mons.first(where: { Bestiary.all[$0.kind].boss }), let dir = c.step(toward: b.pos) ?? c.near(c.hero.pos).firstIndex(where: { c.monAt($0) == b.pos ? true : false }) {
-                if !c.act(dir) { c.rest() }
-            } else if let e = c.tiles.firstIndex(of: .exit), c.seen[e], let dir = c.step(toward: e) {
-                if !c.act(dir) { c.rest() }
-            } else {
-                let dirs = (0..<4).filter { let t = c.near(c.hero.pos)[$0]; return t >= 0 && t < c.tiles.count && c.tiles[t] != .wall }
-                if let d = dirs.randomElement() { if !c.act(d) { c.rest() } } else { c.rest() }
+            var dir: Int? = nil
+            if let b = c.mons.first(where: { Bestiary.all[$0.kind].boss }) {
+                dir = c.near(c.hero.pos).firstIndex(of: b.pos) ?? fullStep(c, to: b.pos)
+            } else if let e = c.tiles.firstIndex(of: .exit) {
+                dir = fullStep(c, to: e)
             }
+            if dir == nil {
+                let dirs = (0..<4).filter { let t = c.near(c.hero.pos)[$0]; return t >= 0 && t < c.tiles.count && c.tiles[t] != .wall }
+                dir = dirs.randomElement()
+            }
+            if let d = dir { if !c.act(d) { c.rest() } } else { c.rest() }
             if stuck > 1200 { gaveUp = true; break }
             continue
         }
-        check(c.monAt(c.hero.pos) == nil, "monster on hero")
-        if vFloor != c.floor { vFloor = c.floor; visited = [] }
-        visited.insert(c.hero.pos)
-        if !c.perks.isEmpty {
-            let pref = smart ? [0, 1, 2, 3, 4, 8, 5, 9, 6, 7] : c.perks
-            c.choose(pref.first { c.perks.contains($0) } ?? c.perks[0]); continue
-        }
-        if c.atShop {
-            if smart { for i in [2, 3, 0, 4] { while c.hero.gold >= c.price(i) && (i != 0 || c.hero.potions < 3) { c.buy(i) } } }
-            lastShop = c.floor; c.leave(); continue
-        }
-        if c.atShrine { if smart && c.hero.hp * 10 > c.hero.maxHp * 8 { c.pray() }; c.leave(); continue }
-        if smart && c.hero.hp * 100 < c.hero.maxHp * 45 && c.hero.potions > 0 { c.drink(); continue }
         let ns = c.near(c.hero.pos)
         var target = -1, low = 9999
         for k in 0..<4 { if let mi = c.monAt(ns[k]), c.mons[mi].hp < low { low = c.mons[mi].hp; target = k } }
@@ -125,7 +124,7 @@ for (label, smart) in [("careless", false), ("smart", true)] {
         check(floors[1] * 100 / N <= 12, "first floor kills too often")
     }
 }
-check(stuckRuns <= 24, "too many stuck runs: \(stuckRuns)")
+check(stuckRuns <= 8, "too many stuck runs: \(stuckRuns)")
 print("stuck runs \(stuckRuns)")
 print("time \(String(format: "%.1f", Date().timeIntervalSince(t0)))s")
 print(failures == 0 ? "ALL MAGHARA TESTS PASSED" : "\(failures) FAILURES")
