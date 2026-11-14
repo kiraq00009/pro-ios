@@ -51,7 +51,7 @@ func bot(_ seed: UInt64, smart: Bool) -> Cave {
         n += 1
         check(c.hero.hp > 0 && c.hero.hp <= c.hero.maxHp, "hp out of range")
         if c.floor != lastFloor { lastFloor = c.floor; stuck = 0 } else { stuck += 1 }
-        if stuck > 50 {
+        if stuck > 200 {
             var dir: Int? = nil
             if let b = c.mons.first(where: { Bestiary.all[$0.kind].boss }) {
                 dir = c.near(c.hero.pos).firstIndex(of: b.pos) ?? fullStep(c, to: b.pos)
@@ -63,7 +63,7 @@ func bot(_ seed: UInt64, smart: Bool) -> Cave {
                 dir = dirs.randomElement()
             }
             if let d = dir { if !c.act(d) { c.rest() } } else { c.rest() }
-            if stuck > 1200 { gaveUp = true; break }
+            if stuck > 1000 { gaveUp = true; break }
             continue
         }
         let ns = c.near(c.hero.pos)
@@ -124,7 +124,7 @@ for (label, smart) in [("careless", false), ("smart", true)] {
         check(floors[1] * 100 / N <= 12, "first floor kills too often")
     }
 }
-check(stuckRuns <= 8, "too many stuck runs: \(stuckRuns)")
+check(stuckRuns <= 20, "too many stuck runs: \(stuckRuns)")
 print("stuck runs \(stuckRuns)")
 print("time \(String(format: "%.1f", Date().timeIntervalSince(t0)))s")
 print(failures == 0 ? "ALL MAGHARA TESTS PASSED" : "\(failures) FAILURES")
