@@ -1,5 +1,6 @@
 import Foundation
 import CryptoKit
+import Security
 
 // منطق التشفير وإخفاء الرسائل — خالص وينفحص آليًّا.
 // التشفير: AES‑GCM بمفتاح مشتقّ من كلمة سرّ عبر HKDF‑SHA256 + ملح عشوائيّ.
@@ -18,8 +19,8 @@ enum Crypto {
     /// يشفّر نصًّا ويرجّع كتلة: magic(3) + salt(16) + nonce(12) + ciphertext+tag
     static func encryptRaw(_ text: String, pass: String) -> Data? {
         guard !pass.isEmpty else { return nil }
-        var salt = Data(count: 16)
-        salt.withUnsafeMutableBytes { _ = SecRandomCopyBytes(kSecRandomDefault, 16, $0.baseAddress!) }
+        var rng = SystemRandomNumberGenerator()
+        let salt = Data((0..<16).map { _ in UInt8.random(in: 0...255, using: &rng) })
         let key = derive(pass: pass, salt: salt)
         guard let sealed = try? AES.GCM.seal(Data(text.utf8), using: key) else { return nil }
         guard let combined = sealed.combined else { return nil }     // nonce + ct + tag
