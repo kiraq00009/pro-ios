@@ -183,7 +183,7 @@ do {
     let a = r3.int(10)
     let b = r3.int(10)
     check(a >= 0 && a < 10 && b >= 0 && b < 10, "int() stays in range")
-    check(Rng(seed: 1).int(0) == 0, "int(0) is safe")
+    var r0 = Rng(seed: 1); check(r0.int(0) == 0, "int(0) is safe")
 }
 
 // MARK: - Result

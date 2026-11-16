@@ -341,7 +341,7 @@ struct GameView: View {
         HStack(spacing: gap) {
             stockView(cardW, cardH)
             wasteView(cardW, cardH)
-            Spacer(minimum: gap)
+            Spacer(minLength: gap)
             ForEach(0..<4, id: \.self) { fi in foundationView(fi, cardW, cardH) }
         }
         .frame(height: cardH)
