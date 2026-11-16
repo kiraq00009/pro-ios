@@ -9,6 +9,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Only selected apps (only.txt)
+        run: |
+          if [ -s only.txt ]; then
+            cp only.txt apps.txt
+            awk 'NR==FNR{for(i=1;i<=NF;i++)a[$i]=1;next} ($1 in a)' only.txt shots.txt > shots2.txt
+            mv shots2.txt shots.txt
+            echo "apps: $(cat apps.txt)"; cat shots.txt
+          fi
+
       - name: Xcode
         run: sudo xcode-select -s "$(ls -d /Applications/Xcode_16*.app | sort -V | tail -1)" && xcodebuild -version
 

@@ -61,3 +61,9 @@ Sharara app.pro.sharara chain
 Sharara app.pro.sharara levels
 Sharara app.pro.sharara result
 Sharara app.pro.sharara shop
+Mizan app.pro.mizan diag
+Mizan app.pro.mizan dash
+Mizan app.pro.mizan accounts
+Mizan app.pro.mizan debts
+Mizan app.pro.mizan trips
+Mizan app.pro.mizan reports
