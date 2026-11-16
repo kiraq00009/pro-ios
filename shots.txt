@@ -67,3 +67,9 @@ Mizan app.pro.mizan accounts
 Mizan app.pro.mizan debts
 Mizan app.pro.mizan trips
 Mizan app.pro.mizan reports
+Jaybi app.pro.jaybi home
+Jaybi app.pro.jaybi voice
+Jaybi app.pro.jaybi scan
+Jaybi app.pro.jaybi add
+Jaybi app.pro.jaybi report
+Jaybi app.pro.jaybi onboard

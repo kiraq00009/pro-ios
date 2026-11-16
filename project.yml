@@ -448,3 +448,16 @@ targets:
         INFOPLIST_KEY_UIStatusBarStyle: UIStatusBarStyleDefault
         INFOPLIST_KEY_UIFileSharingEnabled: YES
         INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace: YES
+  Jaybi:
+    type: application
+    platform: iOS
+    sources: [Jaybi, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.jaybi
+        PRODUCT_NAME: Jaybi
+        INFOPLIST_KEY_CFBundleDisplayName: "جيبي"
+        INFOPLIST_KEY_NSMicrophoneUsageDescription: "جيبي يسمعك لمّا تگول مصروفك (مثل: صرفت عشرة آلاف غدا) حتى يسجّله لك."
+        INFOPLIST_KEY_NSSpeechRecognitionUsageDescription: "جيبي يحوّل كلامك لنصّ حتى يفهم المبلغ والصنف. صوتك ما ينحفظ."
+        INFOPLIST_KEY_NSCameraUsageDescription: "جيبي يصوّر الوصل حتى يقرا المجموع واسم المحلّ."
