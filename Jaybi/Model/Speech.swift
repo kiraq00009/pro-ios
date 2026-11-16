@@ -84,6 +84,8 @@ enum Num {
         if table[t] != nil || numeric(t) != nil { return (t, false) }
         for p in ["و", "ب", "بال", "ال"] where t.hasPrefix(p) && t.count > p.count {
             let r = String(t.dropFirst(p.count))
+            // «الربع» = الأصدقاء، «النص» = الوسط — مو كسور
+            if p.hasSuffix("ال"), let e = table[r], e.1 == .frac { continue }
             if table[r] != nil || numeric(r) != nil { return (r, p.hasPrefix("ب")) }
         }
         return (t, false)

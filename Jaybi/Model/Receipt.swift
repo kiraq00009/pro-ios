@@ -88,6 +88,26 @@ enum Receipt {
 
     static func letterCount(_ s: String) -> Int { s.filter { $0.isLetter }.count }
 
+    /// اسم المادّة: نشيل السعر (آخر رقم) والنقاط، ونخلّي الكمّيّة «×2» «5 كغ»
+    static func itemName(_ l: String) -> String {
+        let toks = l.split(separator: " ").map(String.init)
+        func isNum(_ t: String) -> Bool {
+            let n = AR.norm(t)
+            return !n.isEmpty && n.allSatisfy { AR.isDigit($0) || $0 == "," || $0 == "." }
+        }
+        guard let priceIdx = toks.lastIndex(where: isNum) else {
+            return String(l.filter { $0.isLetter || $0 == " " }).trimmingCharacters(in: .whitespaces)
+        }
+        var keep: [String] = []
+        for (i, t) in toks.enumerated() where i != priceIdx {
+            let n = AR.norm(t)
+            if !n.contains(where: { $0.isLetter || AR.isDigit($0) }) { continue }  // «.....» «-»
+            if ["د.ع", "دع", "iqd", "دينار"].contains(n) { continue }
+            keep.append(t.trimmingCharacters(in: CharacterSet(charactersIn: ".:-_")))
+        }
+        return keep.joined(separator: " ")
+    }
+
     static func parse(_ lines: [String]) -> ReceiptResult {
         let ls = lines.map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
 
@@ -130,7 +150,7 @@ enum Receipt {
             let nums = numbers(in: l)
             guard let price = nums.last, price > 0 else { continue }
             if let t = total, price >= t { continue }
-            let name = String(l.filter { $0.isLetter || $0 == " " }).trimmingCharacters(in: .whitespaces)
+            let name = itemName(l)
             if letterCount(name) < 2 { continue }
             items.append(ReceiptItem(name: name, price: price))
         }

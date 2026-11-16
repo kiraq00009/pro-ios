@@ -71,6 +71,13 @@ jobs:
             grep -E "error:|BUILD (SUCCEEDED|FAILED)" sim-$APP.log | sort -u | head -20
             xcrun simctl install "$DEV" build-sim/Debug-iphonesimulator/$APP.app
           done
+          # تسخين: أوّل تشغيل لكلّ تطبيق بطيء على المحاكي (يطلع أسود)
+          awk '!s[$1]++' shots.txt | while read APP BID SCREEN; do
+            [ -z "$APP" ] && continue
+            SIMCTL_CHILD_SHOT=$SCREEN xcrun simctl launch "$DEV" $BID >/dev/null
+            sleep 20
+            xcrun simctl terminate "$DEV" $BID >/dev/null 2>&1
+          done
           while read APP BID SCREEN; do
             [ -z "$APP" ] && continue
             SIMCTL_CHILD_SHOT=$SCREEN xcrun simctl launch "$DEV" $BID >/dev/null

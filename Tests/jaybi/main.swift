@@ -92,6 +92,9 @@ check(r1.total == 12500, "مجموع الوصل = \(String(describing: r1.total)
 check(r1.merchant == "سوبرماركت النخلة", "المحلّ = '\(r1.merchant)'")
 check(r1.items.count == 4, "4 مواد = \(r1.items.count)")
 check(r1.items.first?.price == 3000, "سعر الحليب")
+check(Receipt.itemName("رز 5 كغ ........ 6,500") == "رز 5 كغ", "اسم مادّة بكمّيّة: '\(Receipt.itemName("رز 5 كغ ........ 6,500"))'")
+check(Receipt.itemName("حليب x2 ........ 3,000") == "حليب x2", "حليب x2")
+check(Num.groups(SpeechParse.tokens("نص الف").norm) == [500], "نص الف = 500")
 check(r1.cat == "market", "صنف الوصل = \(r1.cat)")
 
 let r2 = Receipt.parse([
