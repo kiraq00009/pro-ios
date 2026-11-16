@@ -1,6 +1,7 @@
 import SwiftUI
 
 func rnd(_ s: CGFloat, _ w: Font.Weight = .regular) -> Font { .system(size: s, weight: w, design: .rounded) }
+func rnd(_ s: CGFloat, weight: Font.Weight) -> Font { .system(size: s, weight: weight, design: .rounded) }
 
 /// وضع التصوير: المحاكي يشغّل التطبيق بمتغيّر SHOT=اسم_الشاشة حتى نصوّر كلّ شاشة ببيانات تجريبيّة
 enum Shot {
@@ -29,6 +30,8 @@ extension View {
         background(bg, in: RoundedRectangle(cornerRadius: r, style: .continuous))
             .overlay(RoundedRectangle(cornerRadius: r, style: .continuous).stroke(stroke))
     }
+    func card(bg: Color, r: CGFloat = 20, stroke: Color = Color(white: 1, opacity: 0.07)) -> some View { card(bg, r, stroke: stroke) }
+    func card(_ bg: Color, r: CGFloat, stroke: Color = Color(white: 1, opacity: 0.07)) -> some View { card(bg, r, stroke: stroke) }
 }
 
 func agoText(_ d: Date) -> String {

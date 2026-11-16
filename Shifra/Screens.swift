@@ -233,7 +233,9 @@ struct PhotoScreen: View {
 
 struct PassScreen: View {
     @State private var length: Double = 16
-    @State private var upper = true, digit = true, symbol = true
+    @State private var upper = true
+    @State private var digit = true
+    @State private var symbol = true
     @State private var pw = Shot.on ? "Kx9#mPq2$wZ7!vL4" : Pass.generate(length: 16, upper: true, digit: true, symbol: true)
     @State private var test = Shot.on ? "sara1990" : ""
     @State private var copied = false

@@ -9,7 +9,7 @@ struct FlashCell: Identifiable {
     let color: Color
 }
 
-private struct Snapshot: Codable {
+struct Snapshot: Codable {
     var board: [[Int]]
     var tray: [Piece?]
     var score: Int

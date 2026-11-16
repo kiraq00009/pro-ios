@@ -34,15 +34,15 @@ final class MatchVM: ObservableObject {
         let ev = state.flip(i)
         switch ev {
         case .firstFlip:
-            Haptic.tap
+            Haptic.tap()
         case .matched:
-            Haptic.ok
+            Haptic.ok()
             objectWillChange.send()
             if state.isWon {
                 finishWin()
             }
         case .mismatch:
-            Haptic.bad
+            Haptic.bad()
             objectWillChange.send()
             gen += 1
             let g = gen
@@ -416,7 +416,7 @@ final class SeqVM: ObservableObject {
             for pad in seq {
                 if g != self.gen { return }
                 self.active = pad
-                Haptic.tap
+                Haptic.tap()
                 try? await Task.sleep(nanoseconds: 420_000_000)
                 if g != self.gen { return }
                 self.active = nil
@@ -435,14 +435,14 @@ final class SeqVM: ObservableObject {
         }
         input.append(i)
         if !checkSequence(input, target) {
-            Haptic.bad
+            Haptic.bad()
             wrong = true
             phase = .over
             return
         }
-        Haptic.tap
+        Haptic.tap()
         if sequenceComplete(input, target) {
-            Haptic.ok
+            Haptic.ok()
             round += 1
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
                 self?.buildAndWatch()

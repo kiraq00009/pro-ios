@@ -94,7 +94,7 @@ enum LiveNet {
 
     /// البوّابة الحقيقيّة من جدول التوجيه عبر sysctl (fallback = أوّل مضيف)
     static func defaultGateway() -> IPv4? {
-        var mib: [Int32] = [CTL_NET, PF_ROUTE, 0, AF_INET, NET_RT_FLAGS, Int32(RTF_GATEWAY)]
+        var mib: [Int32] = [CTL_NET, PF_ROUTE, 0, AF_INET, 2 /* NET_RT_FLAGS */, Int32(0x2) /* RTF_GATEWAY */]
         var len = 0
         guard sysctl(&mib, 6, nil, &len, nil, 0) == 0, len > 0 else { return nil }
         var buf = [UInt8](repeating: 0, count: len)
@@ -103,13 +103,13 @@ enum LiveNet {
         buf.withUnsafeBytes { raw in
             guard let base = raw.baseAddress else { return }
             var off = 0
-            while off + MemoryLayout<rt_msghdr>.size <= len {
-                let rtm = base.loadUnaligned(fromByteOffset: off, as: rt_msghdr.self)
-                let msgLen = Int(rtm.rtm_msglen)
+            let hdr = 92 // sizeof(rt_msghdr) على داروين — الهيدر مو مكشوف بـSDK الآيفون
+            while off + hdr <= len {
+                let msgLen = Int(base.loadUnaligned(fromByteOffset: off, as: UInt16.self))
                 if msgLen <= 0 || off + msgLen > len { break }
                 // أوّل sockaddr = الوجهة · الثاني = البوّابة (لمّا RTA_GATEWAY مضبوط)
-                var sa = off + MemoryLayout<rt_msghdr>.size
-                let addrs = Int32(rtm.rtm_addrs)
+                var sa = off + hdr
+                let addrs = base.loadUnaligned(fromByteOffset: off + 12, as: Int32.self)
                 func readSA() -> (family: UInt8, inaddr: UInt32)? {
                     guard sa + 2 <= off + msgLen else { return nil }
                     let slen = Int(base.load(fromByteOffset: sa, as: UInt8.self))
@@ -129,8 +129,8 @@ enum LiveNet {
                 }
                 var destIsDefault = false
                 var gw: UInt32? = nil
-                if addrs & Int32(RTA_DST) != 0, let d = readSA() { destIsDefault = (d.inaddr == 0) }
-                if addrs & Int32(RTA_GATEWAY) != 0, let g = readSA(), g.family == UInt8(AF_INET) { gw = g.inaddr }
+                if addrs & Int32(0x1) != 0, let d = readSA() { destIsDefault = (d.inaddr == 0) }
+                if addrs & Int32(0x2) != 0, let g = readSA(), g.family == UInt8(AF_INET) { gw = g.inaddr }
                 if destIsDefault, let g = gw, g != 0 { result = IPv4(g); break }
                 off += msgLen
             }

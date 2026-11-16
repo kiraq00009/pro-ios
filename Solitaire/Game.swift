@@ -292,7 +292,7 @@ struct GameView: View {
             topBar
             topPiles(cardW: cardW, cardH: cardH, gap: gap)
             tableauRow(cardW: cardW, cardH: cardH, gap: gap, tabH: tabH)
-            Spacer(minimum: 0)
+            Spacer(minLength: 0)
         }
         .padding(.horizontal, pad)
         .padding(.top, 6)
@@ -307,7 +307,7 @@ struct GameView: View {
             stat("الوقت", timeStr(game.elapsed))
             stat("الحركات", "\(game.moves)")
             stat("النقاط", "\(game.score)")
-            Spacer(minimum: 0)
+            Spacer(minLength: 0)
             iconBtn("lightbulb.fill", tint: ST.gold) { game.showHint() }
             iconBtn("arrow.uturn.backward", dim: !game.canUndo) { game.undo() }
             iconBtn("plus") { withAnimation(.spring()) { newGame() } }

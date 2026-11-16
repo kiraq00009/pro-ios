@@ -31,8 +31,8 @@ struct Puzzle: Identifiable, Equatable {
     let id: String
     let name: String
     let size: Size
-    let bitmap: [[Bool]]
     let ink: Ink
+    let bitmap: [[Bool]]
     var rows: Int { bitmap.count }
     var cols: Int { bitmap.first?.count ?? 0 }
     var rowClues: [[Int]] { Nono.rowClues(bitmap) }

@@ -353,8 +353,10 @@ final class Engine: ObservableObject {
 
     func burst(_ at: V2, _ n: Int, _ c: RGB, _ speed: Double, _ life: Double) {
         for _ in 0..<n {
-            let a = fxr.range(0, 6.283)
-            let v = V2.ang(a) * (speed * fxr.range(0.25, 1))
+            let ang: Double = fxr.range(0, 6.283)
+            let k: Double = speed * fxr.range(0.25, 1)
+            let dir: V2 = V2(Foundation.cos(ang), Foundation.sin(ang))
+            let v: V2 = dir * k
             parts.append(Particle(p: at, v: v, life: 0, max: life * fxr.range(0.5, 1.1), size: fxr.range(1.5, 3.6), c: c, drag: 2.2))
         }
     }

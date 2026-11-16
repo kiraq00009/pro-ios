@@ -288,7 +288,7 @@ struct HowToView: View {
                         }
                     }
                     ForEach(0..<steps.count, id: \.self) { i in
-                        HowRow(icon: steps[i].0, title: steps[i].1, body: steps[i].2, color: KL.mark(i))
+                        HowRow(icon: steps[i].0, title: steps[i].1, text: steps[i].2, color: KL.mark(i))
                     }
                 }
                 .padding(20)
@@ -302,7 +302,7 @@ struct HowToView: View {
 struct HowRow: View {
     let icon: String
     let title: String
-    let body: String
+    let text: String
     let color: Color
     var body: some View {
         HStack(alignment: .top, spacing: 13) {
@@ -313,7 +313,7 @@ struct HowRow: View {
                 .background(color.opacity(0.16), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
             VStack(alignment: .leading, spacing: 4) {
                 Text(title).font(rnd(16, .heavy)).foregroundStyle(KL.tx1)
-                Text(body).font(rnd(13, .medium)).foregroundStyle(KL.tx2)
+                Text(text).font(rnd(13, .medium)).foregroundStyle(KL.tx2)
                     .fixedSize(horizontal: false, vertical: true)
             }
             Spacer(minLength: 0)
