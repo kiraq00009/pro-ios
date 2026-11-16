@@ -317,3 +317,114 @@ targets:
         INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription: "حتى نحفظ الفيديو المترجم بألبوم صورك."
         INFOPLIST_KEY_NSPhotoLibraryUsageDescription: "حتى تختار فيديو من ألبومك."
         INFOPLIST_KEY_NSSpeechRecognitionUsageDescription: "حتى نسمع الفيديو على الموبايل إذا السيرفر ما يوصل."
+  Samaa:
+    type: application
+    platform: iOS
+    sources: [Samaa, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.samaa
+        PRODUCT_NAME: Samaa
+        GENERATE_INFOPLIST_FILE: NO
+    info:
+      path: Samaa/Info.plist
+      properties:
+        CFBundleDisplayName: "سَمَع"
+        CFBundleShortVersionString: "1.0"
+        CFBundleVersion: "1"
+        UILaunchScreen: {}
+        UIUserInterfaceStyle: Dark
+        UIStatusBarStyle: UIStatusBarStyleLightContent
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        UIBackgroundModes: [audio]
+        ITSAppUsesNonExemptEncryption: false
+        NSMicrophoneUsageDescription: "سَمَع يستعمل المايك حتى يتعرّف على الأصوات من حولك وينبّهك عليها. كلّ شي يصير على جهازك وما يطلع لأيّ مكان."
+  Thil:
+    type: application
+    platform: iOS
+    sources: [Thil, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.thil
+        PRODUCT_NAME: Thil
+        INFOPLIST_KEY_CFBundleDisplayName: "ظِلّ"
+        INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription: "ظِلّ يحتاج إذن الإضافة حتى يحفظ تصاميمك وملصقاتك بألبوم الصور"
+  Farz:
+    type: application
+    platform: iOS
+    sources: [Farz, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.farz
+        PRODUCT_NAME: Farz
+        INFOPLIST_KEY_CFBundleDisplayName: "فرز"
+        INFOPLIST_KEY_NSPhotoLibraryUsageDescription: "فرز يحتاج يشوف صورك حتى يلقى المكرّر والمشوّش ولقطات الشاشة والفيديوهات الكبيرة. التحليل كلّه على جهازك وما يطلع شي منه، وما ينحذف شي بدون تأكيدك."
+        INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription: "فرز يحفظ نسخة ثابتة من الصورة الحيّة لمّا تحوّلها لصورة عاديّة."
+  Dozan:
+    type: application
+    platform: iOS
+    sources: [Dozan, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.dozan
+        PRODUCT_NAME: Dozan
+        INFOPLIST_KEY_CFBundleDisplayName: "دوزان"
+        INFOPLIST_KEY_NSMicrophoneUsageDescription: "دوزان يسمع صوتك أو آلتك حتى يكشف النغمة ويضبطها — الصوت يتحلّل على جهازك وما يتسجّل أو ينرسل."
+  Masar:
+    type: application
+    platform: iOS
+    sources: [Masar, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.masar
+        PRODUCT_NAME: Masar
+        GENERATE_INFOPLIST_FILE: NO
+    info:
+      path: Masar/Info.plist
+      properties:
+        CFBundleDisplayName: "مسار"
+        CFBundleShortVersionString: "1.0"
+        CFBundleVersion: "1"
+        UILaunchScreen: {}
+        UIUserInterfaceStyle: Dark
+        UIStatusBarStyle: UIStatusBarStyleLightContent
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        UIBackgroundModes: [location, audio]
+        ITSAppUsesNonExemptEncryption: false
+        NSLocationWhenInUseUsageDescription: "مسار يستخدم موقعك أثناء الجولة حتى يرسم طريقك ويحسب المسافة والخلايا اللي تاخذها. كلّ شيء يبقى على جهازك."
+        NSLocationAlwaysAndWhenInUseUsageDescription: "اختياري: يخلّي التتبّع يكمل بدقّة لو قفلت الشاشة أو بدّلت التطبيق أثناء الجولة."
+  Madar:
+    type: application
+    platform: iOS
+    sources: [Madar, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.madar
+        PRODUCT_NAME: Madar
+        INFOPLIST_KEY_CFBundleDisplayName: "مدار"
+  Shaq:
+    type: application
+    platform: iOS
+    sources: [Shaq, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.shaq
+        PRODUCT_NAME: Shaq
+        INFOPLIST_KEY_CFBundleDisplayName: "شقّ"
+  Sharara:
+    type: application
+    platform: iOS
+    sources: [Sharara, Kit]
+    settings:
+      groups: [common]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.pro.sharara
+        PRODUCT_NAME: Sharara
+        INFOPLIST_KEY_CFBundleDisplayName: "شرارة"

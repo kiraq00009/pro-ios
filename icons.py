@@ -341,6 +341,96 @@ def montage():
     d.rounded_rectangle([350, 745, 674, 800], radius=22, fill=(255, 255, 255, 220))
     return im
 
+def samaa():
+    im = glow(grad((6, 30, 40), (2, 8, 14)), (512, 512), 420, (40, 220, 255), 130)
+    d = ImageDraw.Draw(im); C = (90, 235, 255)
+    for k, r in enumerate([400, 300, 200]):
+        d.ellipse([512-r, 512-r, 512+r, 512+r], outline=C + (255 - k * 40,), width=22)
+    d.pieslice([112, 112, 912, 912], 300, 345, fill=C + (120,))
+    d.ellipse([462, 462, 562, 562], fill=(255, 255, 255, 255))
+    d.ellipse([650, 300, 720, 370], fill=(255, 90, 120, 255))
+    return im
+
+def thil():
+    im = glow(grad((40, 16, 70), (10, 4, 22)), (512, 460), 430, (200, 90, 255), 130)
+    d = ImageDraw.Draw(im)
+    d.ellipse([300, 820, 724, 890], fill=(0, 0, 0, 150))
+    d.ellipse([402, 210, 622, 430], fill=(255, 255, 255, 255))
+    d.rounded_rectangle([340, 440, 684, 820], radius=150, fill=(255, 255, 255, 255))
+    for x in range(180, 860, 70):
+        d.line([(x, 150), (x + 40, 150)], fill=(255, 210, 90, 255), width=14)
+        d.line([(x, 900), (x + 40, 900)], fill=(255, 210, 90, 255), width=14)
+    return im
+
+def farz():
+    im = glow(grad((10, 46, 30), (3, 14, 10)), (512, 520), 430, (60, 240, 150), 120)
+    d = ImageDraw.Draw(im)
+    d.rounded_rectangle([250, 300, 650, 760], radius=50, fill=(255, 255, 255, 90), outline=(255, 255, 255, 140), width=10)
+    d.rounded_rectangle([370, 230, 780, 700], radius=50, fill=(250, 252, 248, 255))
+    d.polygon([(420, 620), (530, 470), (610, 560), (660, 500), (740, 620)], fill=(60, 200, 130, 255))
+    d.ellipse([640, 300, 710, 370], fill=(255, 200, 70, 255))
+    d.ellipse([600, 640, 840, 880], fill=(255, 70, 90, 255))
+    d.line([(660, 760), (780, 760)], fill=(255, 255, 255, 255), width=30)
+    return im
+
+def dozan():
+    im = glow(grad((60, 30, 6), (16, 8, 2)), (512, 600), 430, (255, 170, 40), 130)
+    d = ImageDraw.Draw(im); A = (255, 200, 80, 255)
+    d.arc([162, 262, 862, 962], 200, 340, fill=A, width=30)
+    for k in range(9):
+        a = math.radians(200 + k * 17.5); r1, r2 = 330, 380 if k % 2 else 410
+        d.line([(512 + r1 * math.cos(a), 612 + r1 * math.sin(a)), (512 + r2 * math.cos(a), 612 + r2 * math.sin(a))], fill=A, width=16)
+    a = math.radians(282)
+    d.line([(512, 612), (512 + 360 * math.cos(a), 612 + 360 * math.sin(a))], fill=(255, 255, 255, 255), width=26)
+    d.ellipse([472, 572, 552, 652], fill=(255, 255, 255, 255))
+    return im
+
+def masar():
+    im = glow(grad((40, 14, 8), (12, 4, 2)), (512, 512), 440, (255, 110, 40), 120)
+    d = ImageDraw.Draw(im)
+    def hexa(cx, cy, r, fill):
+        d.polygon([(cx + r * math.cos(math.radians(60 * i + 30)), cy + r * math.sin(math.radians(60 * i + 30))) for i in range(6)], fill=fill)
+    r = 120; dx = r * math.sqrt(3)
+    for (q, rr, a) in [(0, 0, 255), (1, 0, 200), (-1, 0, 160), (0, 1, 220), (1, -1, 130), (-1, 1, 110), (0, -1, 180)]:
+        cx = 512 + dx * (q + rr / 2); cy = 512 + 1.5 * r * rr
+        hexa(cx, cy, r - 10, (255, 120 + (a - 110) // 2, 50, a))
+    d.line([(220, 800), (400, 620), (520, 690), (700, 380), (820, 260)], fill=(255, 255, 255, 255), width=30, joint='curve')
+    d.ellipse([790, 230, 850, 290], fill=(255, 255, 255, 255))
+    return im
+
+def madar():
+    im = glow(grad((12, 10, 44), (2, 2, 12)), (512, 512), 420, (90, 120, 255), 130)
+    d = ImageDraw.Draw(im)
+    for (x, y) in [(150, 180), (860, 140), (900, 700), (120, 820), (300, 520), (760, 900)]:
+        d.ellipse([x - 6, y - 6, x + 6, y + 6], fill=(255, 255, 255, 200))
+    d.ellipse([382, 382, 642, 642], fill=(120, 150, 255, 255))
+    d.ellipse([222, 222, 802, 802], outline=(255, 255, 255, 170), width=12)
+    for k in range(8):
+        t = k / 8.0; x = 760 - 160 * t; y = 330 - 140 * t
+        d.ellipse([x - 30 * (1 - t), y - 30 * (1 - t), x + 30 * (1 - t), y + 30 * (1 - t)], fill=(255, 170, 60, int(240 * (1 - t))))
+    d.ellipse([725, 295, 795, 365], fill=(255, 220, 120, 255))
+    return im
+
+def shaq():
+    im = glow(grad((44, 8, 20), (12, 2, 6)), (512, 512), 420, (255, 60, 100), 120)
+    d = ImageDraw.Draw(im)
+    d.polygon([(260, 300), (560, 220), (520, 520), (200, 620)], fill=(255, 255, 255, 255))
+    d.polygon([(600, 260), (820, 380), (760, 760), (470, 820), (540, 560)], fill=(255, 80, 120, 255))
+    d.line([(180, 880), (880, 150)], fill=(255, 230, 120, 255), width=16)
+    f = _font(150, True)
+    d.text((330, 130), "37٪", fill=(255, 255, 255, 255), anchor="mm", font=f)
+    return im
+
+def sharara():
+    im = glow(grad((30, 6, 40), (6, 2, 12)), (512, 512), 430, (255, 120, 40), 130)
+    d = ImageDraw.Draw(im)
+    for (x, y, r, c) in [(300, 330, 70, (90, 220, 255)), (720, 300, 60, (255, 90, 200)), (260, 720, 55, (120, 255, 140)), (760, 720, 75, (255, 210, 70))]:
+        d.ellipse([x - r, y - r, x + r, y + r], fill=c + (255,))
+    for k, rr in enumerate([300, 220, 140]):
+        d.ellipse([512 - rr, 512 - rr, 512 + rr, 512 + rr], outline=(255, 200, 90, 220 - k * 40), width=18 - k * 3)
+    d.ellipse([452, 452, 572, 572], fill=(255, 255, 255, 255))
+    return im
+
 if __name__ == '__main__':
     for name in sys.argv[1:]:
         save(globals()[name.lower()](), name)
